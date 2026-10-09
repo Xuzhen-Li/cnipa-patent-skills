@@ -1,0 +1,722 @@
+{
+  "version": 1,
+  "order": "longest-first",
+  "count": 141,
+  "protected_filenames": [
+    "权利要求书.docx",
+    "说明书.docx",
+    "说明书摘要.docx",
+    "说明书附图.docx"
+  ],
+  "protected_terms": [
+    "摘要附图"
+  ],
+  "notes": "Script JSON keys were already English, so they are not entries. Chinese guidance notes under references/ keep their filenames and gain a sibling .en.md. Final CNIPA filing filenames stay Chinese.",
+  "replacements": [
+    {
+      "from": "patent-invention-standalone-10-drawing-validator",
+      "to": "10-drawing-consistency-validator",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-02-initialization",
+      "to": "02-patent-init",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-11-specification",
+      "to": "11-description-writer",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-01-controller",
+      "to": "01-patent-master-control",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-06-innovation",
+      "to": "06-innovation-point-finder",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-07-abstract",
+      "to": "07-abstract-generator",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-03-status",
+      "to": "03-invention-status-check",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-05-search",
+      "to": "05-patent-prior-art-search",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-08-claims",
+      "to": "08-claims-writer",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-04-topic",
+      "to": "04-patent-topic-selector",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-09-image",
+      "to": "09-patent-drawing-generator",
+      "kind": "skill-id"
+    },
+    {
+      "from": "patent-invention-standalone-12-word",
+      "to": "12-patent-word-generator",
+      "kind": "skill-id"
+    },
+    {
+      "from": "技术问题-技术手段-技术效果证据链.json",
+      "to": "problem-means-effect-evidence.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "权利要求-说明书-附图三向对应表.json",
+      "to": "claims-description-drawings-map.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "技术问题-技术手段-技术效果链.json",
+      "to": "problem-means-effect-chain.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "原始披露与新增内容审计表.json",
+      "to": "original-disclosure-audit.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "权利要求-技术特征映射表.json",
+      "to": "claim-feature-map.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "观察置信度与人工复核记录.json",
+      "to": "observation-confidence-review.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "OCR与人工标号核验表.json",
+      "to": "ocr-manual-mark-review.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "`发明专利skill独立流程线`",
+      "to": "`invention-patent-standalone-workflow`",
+      "kind": "workflow-id"
+    },
+    {
+      "from": "商业覆盖与侵权可识别性分析.md",
+      "to": "commercial-coverage-detectability.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "技术特征-对比文件矩阵.json",
+      "to": "feature-prior-art-matrix.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "结构与逻辑实质一致性门.json",
+      "to": "substantive-consistency-gate.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "10-发明专利附图一致性校验器",
+      "to": "10-drawing-consistency-validator",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "专利族与法律状态记录.json",
+      "to": "patent-family-legal-status.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "候选发明构思与单一性分析.md",
+      "to": "candidate-concepts-unity.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "参数与技术效果证据表.json",
+      "to": "parameter-effect-evidence.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "发明专利系统环境确认.json",
+      "to": "system-environment.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "基于原始披露的候选差异点.md",
+      "to": "candidate-differences-from-disclosure.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "待补充实验与技术资料清单.md",
+      "to": "missing-experiments-materials.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "必要与可选技术特征表.json",
+      "to": "essential-optional-features.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "技术事实与假设分层表.json",
+      "to": "fact-hypothesis-layers.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "检索局限与FTO边界说明.md",
+      "to": "search-limits-fto-boundary.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "概括层级与替代方案表.json",
+      "to": "generalization-alternatives.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "12-发明专利Word生成器",
+      "to": "12-patent-word-generator",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "专利附图形式合规门.json",
+      "to": "formal-compliance-gate.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "公开充分性与支持性审查.md",
+      "to": "enablement-support-review.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "具体实施方式要点表.json",
+      "to": "embodiment-points.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "后续修改超范围风险清单.md",
+      "to": "added-matter-risk-list.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "替代方案与规避路径分析.md",
+      "to": "alternatives-design-around.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "检索要素与关键词表.json",
+      "to": "search-elements-keywords.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "结构与逻辑关系矩阵.json",
+      "to": "structure-logic-matrix.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "脚本校验用部件主表.json",
+      "to": "script-part-master.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "跨图部件或步骤清单.json",
+      "to": "cross-view-part-or-step-list.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "通过校验的附图清单.json",
+      "to": "validated-drawing-manifest.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "附图类型与制图路线判定.md",
+      "to": "drawing-route-decision.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "候选附图取证清单.json",
+      "to": "candidate-drawing-evidence.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "发明专利总控状态.json",
+      "to": "master-control-status.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "发明专利输入状态.json",
+      "to": "input-status.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "已有素材三问记录.json",
+      "to": "existing-materials-questionnaire.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "总的发明构思确认记录.md",
+      "to": "general-inventive-concept.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "摘要要素与来源表.json",
+      "to": "abstract-element-sources.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "摘要附图选择记录.json",
+      "to": "abstract-figure-selection.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "检索式与分类号表.json",
+      "to": "queries-and-classifications.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "确定性工程源清单.json",
+      "to": "deterministic-source-manifest.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "终稿附图哈希清单.json",
+      "to": "final-drawing-hashes.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "背景技术不当自认审查.md",
+      "to": "background-admission-review.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "运动与状态约束表.json",
+      "to": "motion-state-constraints.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "部件或步骤主数据.json",
+      "to": "part-or-step-master.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "附图事实追溯矩阵.json",
+      "to": "drawing-fact-trace.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "03-发明专利状态确认器",
+      "to": "03-invention-status-check",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "09-发明专利图片生成器",
+      "to": "09-patent-drawing-generator",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "发明专利初始化记录.md",
+      "to": "initialization-record.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "图间结构约束表.json",
+      "to": "cross-view-constraints.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "已有素材完整度评估.md",
+      "to": "existing-materials-completeness.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "技术事实单一源.json",
+      "to": "technical-fact-source.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "技术效果证据表.json",
+      "to": "technical-effect-evidence.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "最接近现有技术认定.md",
+      "to": "closest-prior-art.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "权利要求依赖树.json",
+      "to": "claim-dependency-tree.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "权利要求结构表.json",
+      "to": "claim-structure.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "附图一致性审计报告.md",
+      "to": "drawing-consistency-audit.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "07-说明书摘要生成器",
+      "to": "07-abstract-generator",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "08-权利要求书撰写器",
+      "to": "08-claims-writer",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "下一节点建议.json",
+      "to": "next-node-suggestion.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "下一节点输入.json",
+      "to": "next-node-input.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "候选附图清单.json",
+      "to": "candidate-drawing-manifest.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "创新点层级表.json",
+      "to": "innovation-hierarchy.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "发明专利当前阶段.md",
+      "to": "current-stage.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "发明专利终稿.docx",
+      "to": "patent-final.docx",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "发明人待确认问题.md",
+      "to": "inventor-open-questions.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "发明状态确认.json",
+      "to": "invention-status.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "对比文件清单.json",
+      "to": "prior-art-document-list.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "待代理师确认事项.md",
+      "to": "attorney-review-items.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "摘要字符校验.json",
+      "to": "abstract-character-check.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "摘要定稿待复核项.md",
+      "to": "abstract-finalization-checklist.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "摘要定稿校验.json",
+      "to": "abstract-final-validation.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "权利要求质量检查.md",
+      "to": "claims-quality-check.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "母版冻结记录.json",
+      "to": "master-freeze-record.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "起始节点推荐.json",
+      "to": "start-node-recommendation.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "附图使用清单.json",
+      "to": "drawing-usage-manifest.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "附图标号主表.json",
+      "to": "drawing-mark-master.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "附图视图规划.json",
+      "to": "drawing-view-plan.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "02-发明专利初始化",
+      "to": "02-patent-init",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "04-发明专利选题器",
+      "to": "04-patent-topic-selector",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "05-发明专利检索器",
+      "to": "05-patent-prior-art-search",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "不一致问题清单.md",
+      "to": "inconsistency-issues.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "创造性初步分析.md",
+      "to": "inventive-step-preliminary.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "单一性初步分析.md",
+      "to": "unity-preliminary.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "可专利主题初筛.md",
+      "to": "patentable-subject-screen.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "备用保护点清单.md",
+      "to": "backup-protection-points.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "新颖性初步分析.md",
+      "to": "novelty-preliminary.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "说明书摘要定稿.md",
+      "to": "abstract-final.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "01-发明专利总控",
+      "to": "01-patent-master-control",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "06-创新点确定器",
+      "to": "06-innovation-point-finder",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "11-说明书写作器",
+      "to": "11-description-writer",
+      "kind": "skill-dir"
+    },
+    {
+      "from": "保护层级设计.md",
+      "to": "claim-scope-hierarchy.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "保护范围说明.md",
+      "to": "claim-scope-notes.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "制图形式规范.md",
+      "to": "drawing-form-spec.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "发明专利_交付结果",
+      "to": "patent-deliverables",
+      "kind": "path-token"
+    },
+    {
+      "from": "发明名称建议.md",
+      "to": "title-candidates.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "差异叠加分析.md",
+      "to": "difference-overlay-analysis.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "已有材料登记.md",
+      "to": "existing-materials-register.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "已有素材清单.md",
+      "to": "existing-materials-inventory.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "技术披露整理.md",
+      "to": "technical-disclosure.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "检索日志.json",
+      "to": "search-log.json",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "素材评估复核.md",
+      "to": "materials-assessment-review.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "终稿内容清单.md",
+      "to": "final-content-manifest.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "说明书用附图副本/",
+      "to": "description-drawing-copies/",
+      "kind": "path-token"
+    },
+    {
+      "from": "起始节点决策.md",
+      "to": "start-node-decision.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "逐图绘制规范.md",
+      "to": "per-figure-drawing-spec.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "待确认问题.md",
+      "to": "open-questions.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "权利要求书.md",
+      "to": "claims.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "说明书摘要.md",
+      "to": "abstract-draft.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "质量门记录.md",
+      "to": "quality-gate-record.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "专利相关文件/",
+      "to": "patent-files/",
+      "kind": "path-token"
+    },
+    {
+      "from": "检索策略.md",
+      "to": "search-strategy.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "确定性工程源/",
+      "to": "deterministic-engineering-sources/",
+      "kind": "path-token"
+    },
+    {
+      "from": "过程日志.md",
+      "to": "process-log.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "问题证据截图/",
+      "to": "issue-evidence-screenshots/",
+      "kind": "path-token"
+    },
+    {
+      "from": "附图说明.md",
+      "to": "brief-description-of-drawings.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "差异叠加图/",
+      "to": "difference-overlays/",
+      "kind": "path-token"
+    },
+    {
+      "from": "用户已有素材",
+      "to": "user-existing-materials",
+      "kind": "path-token"
+    },
+    {
+      "from": "说明书.md",
+      "to": "description.md",
+      "kind": "deliverable-file"
+    },
+    {
+      "from": "交付结果/",
+      "to": "deliverables/",
+      "kind": "path-token"
+    },
+    {
+      "from": "候选附图/",
+      "to": "candidate-drawings/",
+      "kind": "path-token"
+    },
+    {
+      "from": "概念原型/",
+      "to": "concept-prototypes/",
+      "kind": "path-token"
+    },
+    {
+      "from": "过程记录/",
+      "to": "process-records/",
+      "kind": "path-token"
+    },
+    {
+      "from": "交接/",
+      "to": "handoff/",
+      "kind": "path-token"
+    },
+    {
+      "from": "输入/",
+      "to": "input/",
+      "kind": "path-token"
+    },
+    {
+      "from": "输出/",
+      "to": "output/",
+      "kind": "path-token"
+    },
+    {
+      "from": "阶段/",
+      "to": "stages/",
+      "kind": "path-token"
+    }
+  ]
+}

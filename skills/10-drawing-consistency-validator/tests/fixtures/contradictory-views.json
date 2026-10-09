@@ -1,0 +1,28 @@
+{
+  "views": [
+    {
+      "view_id": "图1",
+      "required_part_ids": ["P1", "P2"],
+      "parts": [
+        {"part_id": "P1", "observed_attributes": {"shape_signature": "矩形中空壳体", "connection": "包围P2", "position": "外部"}},
+        {"part_id": "P2", "observed_attributes": {"shape_signature": "直圆柱轴", "connection": "穿过P1中心孔", "position": "P1内部"}}
+      ]
+    },
+    {
+      "view_id": "图2",
+      "required_part_ids": ["P1", "P2"],
+      "parts": [
+        {"part_id": "P1", "observed_attributes": {"shape_signature": "矩形中空壳体", "connection": "包围P2", "position": "外部"}},
+        {"part_id": "P2", "observed_attributes": {"shape_signature": "直圆柱轴", "connection": "安装在P1外壁", "position": "P1外部"}}
+      ]
+    },
+    {
+      "view_id": "图3",
+      "required_part_ids": ["P1", "P2"],
+      "parts": [
+        {"part_id": "P1", "observed_attributes": {"shape_signature": "矩形中空壳体", "connection": "包围P2", "position": "外部"}},
+        {"part_id": "P2", "observed_attributes": {"shape_signature": "直圆柱轴", "connection": "穿过P1中心孔", "position": "P1内部"}}
+      ]
+    }
+  ]
+}

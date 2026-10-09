@@ -1,0 +1,4 @@
+interface:
+  display_name: "06-innovation-point-finder"
+  short_description: "Confirm one general inventive concept and the core, secondary, and fallback layers. No fixed word count. 确认总的发明构思及核心、次级和备用创新层级，不设固定字数。"
+  default_prompt: "请使用 $06-innovation-point-finder 以资深专利代理人视角组织发明构思、创新层级、证据链和单一性分析。 Use $06-innovation-point-finder to organize the inventive concept, innovation layers, evidence chain, and unity analysis."

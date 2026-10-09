@@ -1,0 +1,4 @@
+interface:
+  display_name: "10-drawing-consistency-validator"
+  short_description: "Open 3–7 real images and run the substantive gate, the formal gate, mark checks, and difference overlays. 对3–7张实图执行结构实质门、形式合规门、标号及差异叠加审查。"
+  default_prompt: "请使用 $10-drawing-consistency-validator 逐张打开实图，并独立完成实质一致性和形式合规双重质量门。 Use $10-drawing-consistency-validator to open every real image and run the substantive and formal gates."

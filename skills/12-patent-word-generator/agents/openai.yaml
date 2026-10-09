@@ -1,0 +1,4 @@
+interface:
+  display_name: "12-patent-word-generator"
+  short_description: "Build the invention-patent Word draft using only the 3–7 drawings that passed the image check. 仅使用通过实图一致性校验的 3–7 张附图生成发明专利 Word 终稿。"
+  default_prompt: "请使用 $12-patent-word-generator 处理当前发明专利项目，并输出本节点交付结果和 END 交接。 Use $12-patent-word-generator to finish this invention-patent project and write this node's deliverables and the END handoff."

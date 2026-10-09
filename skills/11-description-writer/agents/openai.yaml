@@ -1,0 +1,4 @@
+interface:
+  display_name: "11-description-writer"
+  short_description: "Check enablement, support, effect evidence, and added-matter risk for the field, then finalize the abstract. 按领域完成充分公开、支持性、效果证据和超范围风险审查，并定稿摘要。"
+  default_prompt: "请使用 $11-description-writer 以资深专利代理人标准撰写说明书、完成专业审查并定稿摘要。 Use $11-description-writer to write the description, complete the professional review, and finalize the abstract."

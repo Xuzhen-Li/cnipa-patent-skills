@@ -1,0 +1,4 @@
+interface:
+  display_name: "07-abstract-generator"
+  short_description: "Draft an abstract of at most 300 characters. Skill 11 finalizes it against the description and drawings. 生成不超过300字的摘要初稿，由11结合最终正文和附图完成定稿。"
+  default_prompt: "请使用 $07-abstract-generator 以资深专利代理人标准生成可追溯的摘要初稿并完成字符校验。 Use $07-abstract-generator to draft a traceable abstract and run the character check."

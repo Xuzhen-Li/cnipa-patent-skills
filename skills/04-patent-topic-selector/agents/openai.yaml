@@ -1,0 +1,4 @@
+interface:
+  display_name: "04-patent-topic-selector"
+  short_description: "Build a problem-means-effect chain from inventor facts and screen subject matter, unity, and claim value. 从发明人事实中建立问题—手段—效果链，初筛可专利主题、单一性与保护价值。"
+  default_prompt: "请使用 $04-patent-topic-selector 以资深专利代理人视角整理技术披露、区分事实与建议，并输出可复核检索输入。 Use $04-patent-topic-selector to organize the technical disclosure, separate facts from proposals, and write search inputs."

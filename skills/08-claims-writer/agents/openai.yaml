@@ -1,0 +1,4 @@
+interface:
+  display_name: "08-claims-writer"
+  short_description: "Design the dependency hierarchy and write at most 10 invention-patent claims. 设计引用层级并撰写不超过10项的发明专利权利要求书。"
+  default_prompt: "请使用 $08-claims-writer 为当前发明专利设计保护层级和依赖树，再撰写不超过10项的权利要求书。 Use $08-claims-writer to design the claim hierarchy and dependency tree, then write at most 10 claims."

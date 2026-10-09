@@ -1,0 +1,26 @@
+{
+  "parts": [
+    {
+      "part_id": "P1",
+      "drawing_mark": "1",
+      "standard_name": "壳体",
+      "quantity": 1,
+      "stable_attributes": {
+        "shape_signature": "矩形中空壳体",
+        "connection": "包围P2",
+        "position": "外部"
+      }
+    },
+    {
+      "part_id": "P2",
+      "drawing_mark": "2",
+      "standard_name": "传动轴",
+      "quantity": 1,
+      "stable_attributes": {
+        "shape_signature": "直圆柱轴",
+        "connection": "穿过P1中心孔",
+        "position": "P1内部"
+      }
+    }
+  ]
+}

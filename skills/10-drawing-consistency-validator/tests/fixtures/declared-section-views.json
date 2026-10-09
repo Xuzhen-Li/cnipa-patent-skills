@@ -1,0 +1,28 @@
+{
+  "views": [
+    {
+      "view_id": "图1",
+      "required_part_ids": ["P1", "P2"],
+      "parts": [
+        {"part_id": "P1", "observed_attributes": {"shape_signature": "矩形中空壳体", "connection": "包围P2", "position": "外部"}},
+        {"part_id": "P2", "observed_attributes": {"shape_signature": "直圆柱轴", "connection": "穿过P1中心孔", "position": "P1内部"}}
+      ]
+    },
+    {
+      "view_id": "图2-剖视图",
+      "required_part_ids": ["P1", "P2"],
+      "parts": [
+        {"part_id": "P1", "observed_attributes": {"connection": "包围P2", "position": "外部"}, "not_observable": ["shape_signature"], "not_observable_reasons": {"shape_signature": "剖切移除了部分外轮廓，无法从本视图独立判断完整外形"}},
+        {"part_id": "P2", "observed_attributes": {"shape_signature": "直圆柱轴", "connection": "穿过P1中心孔", "position": "P1内部"}}
+      ]
+    },
+    {
+      "view_id": "图3-爆炸图",
+      "required_part_ids": ["P1", "P2"],
+      "parts": [
+        {"part_id": "P1", "observed_attributes": {"shape_signature": "矩形中空壳体", "connection": "包围P2", "position": "外部"}},
+        {"part_id": "P2", "observed_attributes": {"shape_signature": "直圆柱轴"}, "not_observable": ["connection", "position"], "not_observable_reasons": {"connection": "爆炸图按既定装配轴线拉开，静态接触状态不可直接观察", "position": "爆炸距离使装配后的内外位置不可直接观察"}}
+      ]
+    }
+  ]
+}
