@@ -1,78 +1,75 @@
-# Pack manifest
+# 交付清单
 
-- Edition: second
-- Pack date: 2026-08-03
-- Private bilingual working copy
-- Author: Xuzhen Li
+- 版本：第二版
+- 整理日期：2026-08-03
+- 中文工作副本（只写中国发明专利）
+- 作者：Xuzhen Li
 
-## What this pack does
+## 包用途
 
-This pack is one standalone skill line for invention patents (发明专利) only.
+本包是发明专利路线的独立技能流程，只处理发明专利。
 
-## Skill count
+## 技能数量
 
-- Standalone entry skills: 2 (`01-patent-master-control`, `02-patent-init`)
-- Workflow node skills: 10 (03 through 12)
-- Total: 12
+- 发明专利独立入口技能：2 个（`01-patent-master-control`、`02-patent-init`）
+- 工作流节点技能：10 个（03 至 12）
+- 合计：12 个
 
-## Layout
+## 目录
 
 ```text
 patent-skills-private/
   README.md
-  README.zh-CN.md
   install.sh
   install.ps1
   docs/PACK_MANIFEST.md
-  docs/PACK_MANIFEST.zh-CN.md
   docs/rename_map.json
   docs/apply_rename_map.py
-  skills/<skill-name>/SKILL.md
-  skills/<skill-name>/SKILL.zh-CN.md
+  skills/<技能名>/SKILL.md
 ```
 
-Chinese guidance notes stay under `references/` and have an `.en.md` sibling. Final CNIPA filenames stay Chinese: `权利要求书.docx`, `说明书.docx`, `说明书摘要.docx`, `说明书附图.docx`, and `摘要附图`.
+`references/` 中的审查说明只有中文版。中国申请文件若拆开保存，文件名保持：`权利要求书.docx`、`说明书.docx`、`说明书摘要.docx`、`说明书附图.docx` 和 `摘要附图`。
 
-## Install scope
+## 安装范围
 
-- `install.sh --target project <dir>` installs into `<dir>/.agents/skills`.
-- `cursor`, `claude`, `codex`, and `all` install into the matching user skill directories only when that target is explicit.
-- Reinstalling replaces only these 12 skill directory names. Other skills in the destination are left in place.
-- `--mode copy` copies. `--mode link` symlinks. `--dry-run` writes nothing.
+- `install.sh --target project <目录>` 安装到 `<目录>/.agents/skills`。
+- `cursor`、`claude`、`codex`、`all` 只有在明确指定时才写入对应用户技能目录。
+- 重新安装时只替换这 12 个同名技能，不删除目标中的其他技能。
+- `--mode copy` 复制。`--mode link` 做符号链接。`--dry-run` 不写入。
 
-## Completeness
+## 完整性
 
-- The installer accepts the 12 skills in this manifest. It stops if any directory or `SKILL.md` is missing.
-- The pack does not contain `.DS_Store`, caches, run products, user patent materials, or a global install directory.
-- `tests/fixtures/` holds anonymous structured samples for the drawing-consistency script. It does not contain an inventor's real data.
+- 安装器只安装本清单中的 12 个技能。缺少任一目录或 `SKILL.md` 时立即停止。
+- 本包不包含 `.DS_Store`、缓存、运行产物、用户专利材料或已经装好的全局目录。
+- `tests/fixtures/` 只包含附图一致性校验脚本所需的匿名结构化样例，不含发明人的真实数据。
 
-## Start confirmation
+## 启动说明
 
-- Before substantive work, `01-patent-master-control` shows a short notice: this is drafting assistance, not legal advice; a registered patent agent (专利代理师) should review the draft before filing; keep the invention confidential until filing.
-- The user continues with a natural confirmation such as `yes` or `确认`. There is no fixed sentence and no confirmation record.
-- Until the user agrees, do not create the delivery directory, read materials, call tools, or do patent work.
+- 正式工作前，`01-patent-master-control` 说明：这是撰写辅助，不是法律意见；提交前应由注册专利代理师审查；申请前对发明保密。
+- 用户以 `yes` 或 `确认` 等自然表达表示同意即可。不设固定原句，也不写确认记录。
+- 用户同意之前，不得创建交付目录、读取材料、调用工具或开展专利实质工作。
 
-## Materials assessment and dynamic start
+## 素材评估与动态起步
 
-- Skill 02 first asks whether a patent framework, a patent draft, or related materials already exist.
-- If any answer is yes, it creates `<nn>-user-existing-materials/` under `patent-deliverables/02-patent-init/input/`, starting at `01`. It does not overwrite or rewrite the originals.
-- After the user confirms the files are in place, skill 02 assesses readiness for nodes 04–12 and recommends the earliest node that still needs work.
-- Skill 03 reviews that evidence and routes to the recommended node. It does not always send existing materials to skill 07.
-- After the recommended node finishes, the normal order continues through skill 12.
+- 02 必须优先询问是否已有专利框架、是否已完成专利初稿、是否已有专利相关材料。
+- 任一项为“是”时，在 `patent-deliverables/02-patent-init/input/` 下创建 `<编号>-user-existing-materials/`，编号从 `01` 起递增，不得覆盖或改写原始素材。
+- 用户确认素材已放置后，02 必须逐文件评估 04 至 12 的就绪度，并推荐最早需要补齐的节点。
+- 03 必须复核评估证据，并动态路由到推荐节点，不得固定把已有材料路由到 07。
+- 被推荐节点完成后，恢复原有顺序继续推进到 12。
 
-## Drawing constraints
+## 附图约束
 
-- Skill 09 reviews the available text and materials, builds one fact source, freezes the Figure 1 master, and plans 3–7 drawings.
-- Figures 2–7 are derived from that master. A complex device is not a set of unrelated text-to-image tasks.
-- Skill 10 opens every actual image and checks them against each other. A structural contradiction is a hard failure and returns to skill 09.
-- The abstract figure is chosen from the passed set. Skills 11 and 12 use only the passed drawing copies from skill 10.
+- 09 必须审查全部可用文本和素材，建立唯一事实源，冻结图1整体结构母版，并按技术表达需要规划 3–7 张附图。
+- 图2–图7必须从同一母版派生。复杂装置不得作为互不相关的独立文生图任务。
+- 10 必须打开全部实际图片执行独立跨图校验。结构矛盾是硬失败，必须退回 09。
+- 摘要附图从通过校验的图集中选择。11 和 12 只能使用 10 输出的通过校验附图副本。
 
-## Node delivery
+## 节点交付
 
-Each node creates:
+每个节点必须创建：
 
 ```text
-patent-deliverables/<skill-name>/
+patent-deliverables/<技能名>/
   input/
   output/
   process-records/
@@ -82,14 +79,14 @@ patent-deliverables/<skill-name>/
   patent-files/
 ```
 
-The next skill reads the previous skill's `handoff/next-node-input.json`.
+下一个技能的输入必须来自上一个技能的 `handoff/next-node-input.json`。
 
-## Scripts
+## 脚本
 
-Three validators are unchanged in logic from the second edition:
+三个校验脚本的逻辑与第二版一致：
 
 - `skills/07-abstract-generator/scripts/validate_abstract.py`
 - `skills/10-drawing-consistency-validator/scripts/validate_drawing_manifest.py`
 - `skills/11-description-writer/scripts/validate_final_abstract.py`
 
-Their JSON keys were already English. `validate_drawing_manifest.py` returns exit code 1 for a usage error; the abstract validators return 2. That difference was left as-is.
+脚本使用的 JSON 键本来就是英文。`validate_drawing_manifest.py` 在用法错误时返回退出码 1，两个摘要脚本返回 2。这一差别保持原样。

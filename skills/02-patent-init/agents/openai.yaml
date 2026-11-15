@@ -1,4 +1,4 @@
 interface:
   display_name: "02-patent-init"
-  short_description: "Ask the three materials questions, assess existing files, and recommend the earliest start node. 优先盘点并评估已有素材，推荐最合适的专利起始节点。"
-  default_prompt: "请使用 $02-patent-init 初始化当前发明专利项目，先完成三项素材询问与评估。 Use $02-patent-init to initialize this invention-patent project, starting with the three materials questions and the assessment."
+  short_description: "优先盘点并评估已有素材，推荐最合适的专利起始节点。"
+  default_prompt: "请使用 $02-patent-init 初始化当前发明专利项目，先完成三项素材询问与评估。"

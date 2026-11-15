@@ -1,4 +1,4 @@
 interface:
   display_name: "01-patent-master-control"
-  short_description: "Start the invention-patent workflow after a normal yes or 确认. 启动发明专利流程，说明撰写边界后，在用户以 yes 或确认同意后再调度后续节点。"
-  default_prompt: "请使用 $01-patent-master-control 启动当前发明专利项目。先说明这是撰写辅助、不是法律意见，并请用户以 yes 或确认表示同意。 Use $01-patent-master-control to start this invention-patent project. Say that this is drafting assistance, not legal advice, and wait for a normal yes or 确认."
+  short_description: "启动发明专利流程，说明撰写边界后，在用户以 yes 或确认同意后再调度后续节点。"
+  default_prompt: "请使用 $01-patent-master-control 启动当前发明专利项目。先说明这是撰写辅助、不是法律意见，并请用户以 yes 或确认表示同意。"

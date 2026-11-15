@@ -1,27 +1,27 @@
 ---
 name: "03-invention-status-check"
-description: "Review the materials assessment from 02-patent-init and route to the earliest node among 04–12 that still needs work. 用于复核 02-patent-init 的已有素材评估和起始节点推荐，依据实际材料成熟度动态路由到 04 至 12 中最早需要补齐的节点。"
+description: "用于复核 02-patent-init 的已有素材评估和起始节点推荐，依据实际材料成熟度动态路由到 04 至 12 中最早需要补齐的节点。"
 ---
 
 # 03-invention-status-check
 
-## Purpose
+## 节点目的
 
-Review how mature the existing materials actually are, independently choose the earliest node that still needs work, and route to one of nodes 04 through 12.
+复核已有素材的实际成熟度，独立确定最早需要补齐的节点，并动态分流到 04 至 12。
 
-## When it runs
+## 触发时机
 
-Run after `02-patent-init` finishes.
+`02-patent-init` 完成后触发。
 
-## Required inputs
+## 必需输入
 
-- `patent-deliverables/02-patent-init/handoff/next-node-input.json`.
-- The three-question record, materials inventory, completeness assessment, and start-node recommendation produced by skill 02.
-- The user's existing-materials directory, or null when all three answers were no.
+- `patent-deliverables/02-patent-init/handoff/next-node-input.json`。
+- 02 生成的三问记录、素材清单、完整度评估和起始节点推荐。
+- user-existing-materials目录；三项均为否时可为 null。
 
-## Required node directory
+## 必建节点交付目录
 
-Before substantive work, create this directory in the current patent project. The directory name must match this skill name. Do not add a project-number level.
+开始实质工作前，必须在当前专利项目内创建以下目录。目录名必须与本 Skill 名称一致，不得增加项目编号层级：
 
 ```text
 patent-deliverables/03-invention-status-check/
@@ -34,97 +34,97 @@ patent-deliverables/03-invention-status-check/
   patent-files/
 ```
 
-Process records, stage files, patent text, drawings, intermediate Word files, and other patent files from this node stay inside this directory. Do not also create `stages/`, `process-records/`, or `patent-files/` at the project root.
+本节点产生的过程记录、阶段文件、专利正文、附图、Word 中间稿和其他专利相关文件，都必须保存在该节点目录内；不得在项目根目录额外创建 `stages/`、`process-records/` 或 `patent-files/`。
 
-## Steps
+## 执行步骤
 
-1. Read skill 02's three-question record, materials directory, file-by-file inventory, readiness assessment for nodes 04–12, recommended node, and reasons.
-2. If the user claims any class of materials, check that the directory exists, that the user confirmed the files were placed, and that every file cited by the assessment really exists. Do not merely repeat what the user said.
-3. Re-check each prerequisite using skill 02's start-node rules, and choose the lowest-numbered node that still needs work. For drawings, separately check whether the actual count is 3–7, whether a structural master and fact baseline exist, and whether there is a per-image pass record. Having image files is not the same as having passed skill 10.
-4. If this review disagrees with skill 02, follow the conclusion with the stronger evidence and explain each change in `start-node-decision.md`.
-5. Do not ask the user to pick the start node. Show the recommended node, usable materials, gaps, reasons, and the route that follows.
-6. Set `next_skill` to the final recommended node from `04` through `12`, write the handoff, and stop. Do not run the recommended node in this same turn.
+1. 读取 02 的三问记录、素材目录、逐文件清单、04 至 12 就绪度评估、推荐节点和推荐理由。
+2. 若用户声称有任一类素材，核验素材目录存在、用户已确认放置完成且评估所引用的文件真实存在；不得仅复述用户自述。
+3. 按 02 的“起始节点推荐规则”复核每个前置依赖，并选择编号最小、最早需要补齐的节点。对附图单独核验实际数量是否为 3–7、是否存在结构母版/事实基准，以及是否有逐张实图一致性通过记录；只有图片文件不等于已经通过 10。
+4. 若复核结论与 02 推荐不同，以证据更充分的结论为准，并在 `start-node-decision.md` 中逐项说明调整理由。
+5. 不要求用户自行选择从哪个节点开始；只向用户展示推荐节点、可用素材、缺失项、判断依据和后续路线。
+6. 将 `next_skill` 写为最终推荐的 `04` 至 `12` 节点，生成交接文件并停止；不得在同一轮执行被推荐节点。
 
-## Required outputs
+## 必需输出
 
-Formal results for this node go under:
+本节点正式成果至少保存到：
 
 - `patent-deliverables/03-invention-status-check/deliverables/`
 
-Process records:
+本节点过程记录必须保存到：
 
 - `patent-deliverables/03-invention-status-check/process-records/process-log.md`
 - `patent-deliverables/03-invention-status-check/process-records/open-questions.md`
 - `patent-deliverables/03-invention-status-check/process-records/quality-gate-record.md`
 
-Handoff:
+本节点交接文件必须保存到：
 
 - `patent-deliverables/03-invention-status-check/handoff/next-node-input.json`
 
-Required files:
+必交付文件：
 
-- `invention-status.json`
-- `existing-materials-register.md`
-- `materials-assessment-review.md`
-- `start-node-decision.md`
-- `next-node-input.json`
+- invention-status.json
+- existing-materials-register.md
+- materials-assessment-review.md
+- start-node-decision.md
+- next-node-input.json
 
-## Standalone run and user confirmation
+## 独立运行与用户确认规则
 
-- This node only reviews the materials assessment, decides the start node, and writes process records, deliverables, and the handoff.
-- When this node finishes, stop. Show the main output paths and the next node after routing.
-- Run the `04`–`12` node named in the handoff only in a later turn, after the user clearly says to continue or to enter the next step.
-- Do not run the next node in the same turn as this node.
+- 本节点只能完成素材评估复核、起始节点决策、过程记录、交付结果和交接文件。
+- 本节点完成后必须停止，向用户展示本节点主要输出文件路径和分流后的下一节点。
+- 用户明确回复继续、确认进入下一步或类似指令后，才允许在新一轮运行交接文件指定的 `04` 至 `12` 节点。
+- 不得在本节点同一轮中直接执行下一节点。
 
-## Handoff rules
+## 交接规则
 
-`next-node-input.json` must include:
+`next-node-input.json` 必须写明：
 
 - `current_skill`: `03-invention-status-check`
-- `next_skill`: one of `04-patent-topic-selector` through `12-patent-word-generator`
-- `has_patent_framework`: same as upstream
-- `has_patent_draft`: same as upstream
-- `has_related_materials`: same as upstream
-- `existing_materials_folder`: same as upstream
-- `materials_upload_confirmed`: same as upstream
-- `materials_assessment_status`: same as upstream
-- `material_readiness_by_stage`: readiness for nodes 04–12 after this review
-- `recommended_start_skill`: same as `next_skill`
-- `recommendation_reason`: this node's final reasons
+- `next_skill`: `04-patent-topic-selector` 至 `12-patent-word-generator` 之一
+- `has_patent_framework`: 与上游一致
+- `has_patent_draft`: 与上游一致
+- `has_related_materials`: 与上游一致
+- `existing_materials_folder`: 与上游一致
+- `materials_upload_confirmed`: 与上游一致
+- `materials_assessment_status`: 与上游一致
+- `material_readiness_by_stage`: 经本节点复核后的 04 至 12 就绪度结论
+- `recommended_start_skill`: 与 `next_skill` 一致
+- `recommendation_reason`: 本节点最终判断理由
 - `missing_prerequisites`
-- `recommended_source_files`: materials the recommended node should read first
+- `recommended_source_files`: 被推荐节点应优先读取的素材文件
 - `routing_origin_skill`: `03-invention-status-check`
-- `source_files`: files this node read
-- `deliverables`: results this node produced
-- `open_questions`: questions for the user or the patent attorney (专利代理师)
-- `quality_gate_status`: `pass`, `warning`, or `fail`
-- `can_continue`: whether the next node may start
-- `must_stop_reason`: the reason, if it may not
+- `source_files`: 本节点读取的来源文件
+- `deliverables`: 本节点产生的交付结果
+- `open_questions`: 待用户或代理师确认的问题
+- `quality_gate_status`: `pass`、`warning` 或 `fail`
+- `can_continue`: 是否允许进入下一节点
+- `must_stop_reason`: 如果不能继续，写明原因
 
-## Quality gate
+## 质量门
 
-- The three-question record, materials assessment, and recommendation must be complete. When the user has materials, the actual directory and files must be checked.
-- The final recommendation must be the earliest node that still needs work, and it must be one of 04 through 12.
-- The recommendation must list usable evidence, the key gaps, and the inputs the recommended node needs.
-- Do not invent technical facts that the user did not provide and that search did not support.
-- Each node creates `patent-deliverables/<skill-name>/` with no extra project-number level.
-- Process records, stage files, and patent files stay inside this node's directory.
-- The next node may read only this node's `handoff/next-node-input.json`. It must not rely on spoken chat context.
+- 三问记录、素材评估和推荐结论必须完整；用户有素材时必须核验实际目录和文件。
+- 最终推荐必须是最早需要补齐的节点，且范围只能为 04 至 12。
+- 推荐结论必须列出可用证据、关键缺口和被推荐节点所需输入。
+- 不得凭空补造未由用户提供或未由检索支撑的技术事实。
+- 每个节点必须创建 `patent-deliverables/<Skill名称>/`，不得增加项目编号层级。
+- 过程记录、阶段文件和专利相关文件必须收纳在本节点目录内。
+- 下一节点只能读取本节点 `handoff/next-node-input.json`，不得依赖聊天口头上下文。
 
-## Stop conditions
+## 阻断条件
 
-- Skill 02 did not finish the three materials questions or has no start-node recommendation.
-- The user claims materials exist, but upload was not confirmed, the directory is missing or empty, or a file cited by the assessment does not exist.
-- The evidence is not enough to choose the earliest node among 04–12 that still needs work.
-- A required input for this node is missing.
-- A publication risk, ownership risk, or materials-authenticity risk cannot be judged.
+- 02 未完成三项素材询问或缺少起始节点推荐。
+- 用户声称有素材，但上传未确认、目录不存在、目录为空或评估引用文件不存在。
+- 现有证据不足以在 04 至 12 中确定最早需要补齐的节点。
+- 缺少本节点必需输入。
+- 存在无法判断的公开风险、权属风险或材料真实性风险。
 
-## Do not
+## 禁止事项
 
-- Do not skip the node delivery directory.
-- Do not keep the fixed two-way route "simple idea / existing materials".
-- Do not let the user pick the start node for the system. Judge from the materials.
-- Do not skip an earlier prerequisite that is still unmet just because a framework or draft already exists.
-- Do not package unconfirmed content as a formal conclusion.
-- Do not add technical features, appearance features, technical effects, or parameter ranges that are not supported by the user's materials, search records, or a human confirmation.
-- Do not let the next node depend on spoken chat context.
+- 不得跳过节点交付目录。
+- 不得继续采用“简单想法 / 已有材料”二分法固定路由。
+- 不得让用户代替系统选择起始节点；必须依据素材内容自行判断。
+- 不得仅因已有框架或初稿就跳过更早但尚未满足的前置节点。
+- 不得把未确认内容包装成正式结论。
+- 不得新增未由用户材料、检索记录或人工确认支撑的技术特征、外观特征、技术效果或参数范围。
+- 不得让下一节点依赖口头上下文。

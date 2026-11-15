@@ -1,82 +1,82 @@
 ---
 name: "10-drawing-consistency-validator"
-description: "Open each of the 3–7 candidate images and run the substantive consistency gate and the formal compliance gate, including mark checks, difference overlays, confidence, and hashes. 用于以独立专利附图审查视角打开并逐幅检查 3–7 张实际候选图，分别执行结构与逻辑实质一致性门、专利附图形式合规门，并通过 OCR/人工标号核验、差异叠加、观察置信度和哈希锁定阻断部件漂移、连接矛盾及形式缺陷。"
+description: "用于以独立专利附图审查视角打开并逐幅检查 3–7 张实际候选图，分别执行结构与逻辑实质一致性门、专利附图形式合规门，并通过 OCR/人工标号核验、差异叠加、观察置信度和哈希锁定阻断部件漂移、连接矛盾及形式缺陷。"
 ---
 
 # 10-drawing-consistency-validator
 
-## Purpose
+## 节点目的
 
-Act as an independent quality gate. Review the actual images, not the prompts or the file names. The substantive consistency gate must pass first, then the formal compliance gate. If either gate fails, the description (说明书) must not start.
+作为独立质量门，对实际图像而非提示词或文件名进行审查。必须先通过“实质一致性门”，再通过“形式合规门”；任一门未通过均不得进入说明书。
 
-## Trigger and inputs
+## 触发与输入
 
-- Run after skill 09 has output 3–7 formal candidates and allowed the workflow to continue.
-- Skill 03 may send the work here directly when the user already has 3–7 drawings that have not had an independent check of the actual images. If a reliable fact source, master, or engineering source cannot be rebuilt, return to skill 09.
-- Read the upstream handoff, the candidate images, the deterministic-source manifest, the fact source, the part/step master, the relationship matrix, the state constraints, the claims, the view plan, the mark master, and the master-freeze record.
+- 09 输出 3–7 张正式候选图并允许继续后触发。
+- 03 判断用户已有 3–7 张附图但未经独立实图校验时可直达；不能重建可靠事实源、母版或工程源时返回 09。
+- 必须读取上游交接、候选图、确定性工程源清单、事实源、部件/步骤主数据、关系矩阵、状态约束、权利要求、视图规划、标号主表和母版冻结记录。
 
-User original images are read-only. Stop immediately if there are fewer than 3 candidates, more than 7, or any image that cannot be opened.
+用户原始图片只读使用。候选图少于 3 张、多于 7 张或任一图不可打开时立即阻断。
 
-## Node directory and review basis
+## 节点目录与审查基准
 
-Create `patent-deliverables/10-drawing-consistency-validator/` and the seven standard subdirectories. Under `deliverables/`, also create `difference-overlays/`, `issue-evidence-screenshots/`, and `description-drawing-copies/`.
+创建 `patent-deliverables/10-drawing-consistency-validator/` 及标准七类子目录，并在 `deliverables/` 下创建 `difference-overlays/`、`issue-evidence-screenshots/` 和 `description-drawing-copies/`。
 
-Before review, read [references/附图双重质量门检查表.md](references/附图双重质量门检查表.md) and the English counterpart [references/附图双重质量门检查表.en.md](references/附图双重质量门检查表.en.md).
+审查前读取 [references/附图双重质量门检查表.md](references/附图双重质量门检查表.md)。
 
-## Basic evidence
+## 基础取证
 
-1. List every candidate. Record the file path, SHA-256, format, pixel size, color mode, engineering source, export version, and modification time.
-2. Open each image at its original size with a visual image tool. Record the view type, direction, visible parts or steps, marks, connections, positions, and form problems. Do not pass any figure that was not actually opened.
-3. For views that can be compared, make an outline or transparency difference overlay to help see part drift, scale anomalies, interface changes, and mark shifts. Do not subtract pixels mechanically across different viewpoints. Explain those with the master and the view definition.
-4. Use OCR or image recognition to extract marks and necessary text, then have a person or the model look again. OCR is only supporting evidence. It does not replace visual confirmation.
-5. Mark every observation `high`, `medium`, or `low`, with the reason. A key structure at `medium` or `low` must go to human review. Do not judge `pass` before that confirmation.
+1. 枚举全部候选图，记录文件路径、SHA-256、格式、像素尺寸、颜色模式、工程源、导出版本和修改时间。
+2. 使用可视图像工具逐张打开原始尺寸图片，记录视图类型、方向、可见部件/步骤、标号、连接、位置和形式问题。任何图未实际打开不得放行。
+3. 对可比较视图制作轮廓或透明度差异叠加图，辅助识别部件漂移、比例异常、接口变化和标号位移。不同视角不能机械像素相减，必须结合母版和视图定义解释。
+4. 使用 OCR 或图像识别提取标号和必要文字，再由人工/模型目视复核；OCR 只作辅助证据，不得替代视觉确认。
+5. 每个观察项标记 `high`、`medium` 或 `low` 置信度及原因。关键结构为 `medium/low` 时必须进入人工复核，未确认前不得判 pass。
 
-## First gate: substantive consistency
+## 第一质量门：实质一致性
 
-1. From the actual observations, build `cross-view-part-or-step-list.json`. Write visible stable attributes into `observed_attributes`. Write fields that truly cannot be judged because of a section, occlusion, or viewpoint into `not_observable`, with a specific reason.
-2. Use skill 09's `part-or-step-master.json` and `drawing-mark-master.json` as read-only sources. In this node's `input/`, build `script-part-master.json`. That file must use the fields the script requires: a top-level `parts` array; each part has `part_id`, `drawing_mark`, `standard_name`, `quantity`, and a dictionary `stable_attributes`. The keys of `stable_attributes` must match the `observed_attributes` / `not_observable` keys in the cross-view list. Record the source files and the field mapping. Do not edit skill 09's original master.
-3. Run:
+1. 根据实际观察建立 `cross-view-part-or-step-list.json`。可见稳定属性写入 `observed_attributes`；确因剖切、遮挡或视角不可判断的字段写入 `not_observable` 和具体原因。
+2. 以 09 的 `part-or-step-master.json` 和 `drawing-mark-master.json` 为只读来源，在本节点 `input/` 内建立 `script-part-master.json`。该文件必须使用脚本所需字段：顶层 `parts`；每个部件包含 `part_id`、`drawing_mark`、`standard_name`、`quantity` 和字典形式的 `stable_attributes`。`stable_attributes` 的键必须与跨图清单中的 `observed_attributes`/`not_observable` 键一致。必须记录来源文件和字段映射，不得改写 09 的原始主数据。
+3. 运行：
 
 ```bash
 python3 scripts/validate_drawing_manifest.py <script-part-master.json> <cross-view-part-or-step-list.json>
 ```
 
-A script failure must not pass. A script pass does not replace visual review.
+脚本失败不得放行，脚本通过也不能替代视觉审查。
 
-4. Check five layers: figure against fact source, figure against figure, figure against claims, marks against the master, and formal figures against the deterministic engineering source.
-5. For a physical structure, check identity, count, shape, connection, installed position, orientation, inside/outside relationship, motion, and state. For a circuit, software system, or flow, check modules, ports, signals, data, steps, branches, order, and the actor that performs each step. For a chemical or biological figure, check structure, bond type, substitution position, and the reaction or experiment flow.
-6. Accept only viewpoint, section, exploded, detail, and working-state differences that were declared in advance and that the fact source supports.
+4. 执行五层核验：图与事实源、图与图、图与权利要求、标号与主数据、正式图与确定性工程源一致。
+5. 对实体结构核验身份、数量、形状、连接、安装位置、朝向、内外关系、运动和状态；对电路/软件/流程核验模块、端口、信号、数据、步骤、分支、顺序和执行主体；化学/生物图核验结构、键型、取代位置、反应或实验流程。
+6. 只有预先声明且事实源支持的视角、剖切、爆炸、局部放大和工作状态差异可以接受。
 
-All of the following are hard failures: adding or removing a part or step without a basis, changing shape, mirroring a key structure, changing a connection, position drift, changing orientation or the inside/outside relationship, changing signal or step direction, a count that disagrees in the same state, one mark for several objects, or several marks for one object.
+以下均为硬失败：无依据增删部件/步骤、换形、镜像关键结构、换连接、位置漂移、朝向或内外关系改变、信号/步骤方向改变、同一状态数量不一致、一号多物或一物多号。
 
-## Second gate: formal compliance
+## 第二质量门：形式合规
 
-After the substantive gate passes, check:
+在实质门通过后检查：
 
-- Figure numbers for the 3–7 drawings are continuous and the citations are complete. The abstract figure (摘要附图) comes from the same set.
-- White background and black lines. Outlines and symbols are clear. No photographic look, color, grayscale rendering, shadow, gradient, or decorative background.
-- Marks, leader lines, arrows, section symbols, detail enlargements, and state marks are clear and do not cover key structure.
-- No unrelated text, promotional notes, or dimensions or scales without a basis. Necessary text uses the same terms as the description.
-- The drawing is still readable when scaled to the application-page size. Page orientation, margins, multi-figure layout, and output sharpness meet the electronic-filing rules that currently apply.
-- Every formal figure has a reproducible engineering source, and the exported image matches that source.
+- 3–7 张图的图号连续、引用完整，摘要附图来自同一图集。
+- 白底黑线、轮廓和符号清晰，无照片感、颜色、灰度渲染、阴影、渐变或装饰背景。
+- 标号、引出线、箭头、剖切符号、局部放大和状态标记清楚，不压盖关键结构。
+- 无无关文字、宣传说明、无依据尺寸或比例；必要文字与说明书术语一致。
+- 缩放到申请文件版面后仍可辨认；页面方向、留白、分图布局和输出清晰度符合当前适用的电子申请要求。
+- 正式图均有可重现工程源，且导出图与源文件一致。
 
-When a form rule has an uncertain version or interpretation, mark it for review by a practicing patent attorney. Do not guess `pass`.
+形式规则存在版本或解释不确定时，标记待执业代理师复核，不得用主观猜测判 pass。
 
-## Judgment and rework
+## 判定与返工
 
-- `pass`: both gates pass, and every key observation is high confidence or has been confirmed by a person.
-- `warning`: only a minor form problem that does not change the technical content. Until the warning is closed, `can_continue=false`.
-- `fail`: any substantive contradiction, a key feature that cannot be read, an engineering source that does not match, or a serious form defect.
+- `pass`：两个质量门均通过，所有关键观察为高置信度或已完成人工确认。
+- `warning`：只有不改变技术内容的轻微形式问题；警告未关闭前 `can_continue=false`。
+- `fail`：任何实质矛盾、关键不可辨识、工程源不一致或严重形式缺陷。
 
-On failure, output the specific image, the problem location, the part or step ID, the fact ID, the claim, an evidence screenshot, and a directed correction. Write `next_skill=null`, `can_continue=false`, and `retry_skill=09-patent-drawing-generator`.
+失败时输出具体图片、问题位置、部件/步骤 ID、事实 ID、权利要求、证据截图和定向修正要求，并写入 `next_skill=null`、`can_continue=false`、`retry_skill=09-patent-drawing-generator`。
 
-Any edit to a figure, including a change that only touches a mark, a leader line, the layout, or sharpness, must:
+任何修图，包括只改标号、引出线、版面或清晰度，都必须：
 
-1. Produce a new version and a new hash. Do not overwrite the version already reviewed.
-2. Re-check both gates on the full set of 3–7 figures.
-3. Update the difference overlays, the OCR/mark record, and the pass list.
+1. 生成新版本和新哈希，不得覆盖已审版本。
+2. 重新检查全套 3–7 张图的两个质量门。
+3. 更新差异叠加、OCR/标号记录和通过清单。
 
-## Required outputs
+## 必需输出
 
 - `deliverables/candidate-drawing-evidence.json`
 - `deliverables/cross-view-part-or-step-list.json`
@@ -85,32 +85,32 @@ Any edit to a figure, including a change that only touches a mark, a leader line
 - `deliverables/formal-compliance-gate.json`
 - `deliverables/ocr-manual-mark-review.json`
 - `deliverables/observation-confidence-review.json`
-- `deliverables/difference-overlay-analysis.md` and `difference-overlays/`
+- `deliverables/difference-overlay-analysis.md` 及 `difference-overlays/`
 - `deliverables/drawing-consistency-audit.md`
 - `deliverables/inconsistency-issues.md`
 - `deliverables/validated-drawing-manifest.json`
 - `deliverables/abstract-figure-selection.json`
 - `deliverables/description-drawing-copies/`
-- The three standard process records and `handoff/next-node-input.json`
+- 三份标准过程记录及 `handoff/next-node-input.json`
 
-## Release and handoff
+## 放行与交接
 
-Stop after the audit. Write the following into the handoff only when both gates are `pass`, every warning is closed, every key low-confidence item has been confirmed by a person, and the user has confirmed the audit:
+完成审计后必须停止。只有两个质量门均为 pass、所有警告关闭、关键低置信度项已人工确认且用户确认审计结果后，交接文件才可写入：
 
 - `current_skill=10-drawing-consistency-validator`
 - `next_skill=11-description-writer`
-- Existing-materials and dynamic-routing fields, copied unchanged
-- `substantive_gate_status=pass`, `formal_gate_status=pass`
-- `validated_figure_count` (3–7), `validated_figure_files`, `validated_figure_hashes`
-- `abstract_figure_file`, `engineering_source_manifest_file`
-- `ocr_review_status`, `human_review_status`, `unresolved_low_confidence_items=[]`
-- `quality_gate_status=pass`, `can_continue=true`, `retry_allowed=false`
+- 已有素材、动态路由字段原样传递
+- `substantive_gate_status=pass`、`formal_gate_status=pass`
+- `validated_figure_count`（3–7）、`validated_figure_files`、`validated_figure_hashes`
+- `abstract_figure_file`、`engineering_source_manifest_file`
+- `ocr_review_status`、`human_review_status`、`unresolved_low_confidence_items=[]`
+- `quality_gate_status=pass`、`can_continue=true`、`retry_allowed=false`
 
-Do not run skill 11 in the same turn.
+不得同轮执行 11。
 
-## Do not
+## 禁止事项
 
-- Do not check only the prompts, file names, logs, OCR, or the structured lists.
-- Do not downgrade a structural contradiction to a form warning, and do not explain it away as "just a different viewpoint".
-- Do not pass automatically while a person has not confirmed a key medium or low confidence observation.
-- Do not copy an unchecked image, an image changed after the check, or an image whose hash does not match to skill 11 or skill 12.
+- 不得只检查提示词、文件名、日志、OCR 或结构化清单。
+- 不得将结构矛盾降级为形式警告，不得用“视角不同”笼统解释。
+- 不得在人工未确认关键中低置信度观察时自动放行。
+- 不得把未经校验、校验后改动或哈希不一致的图片复制给 11 或 12。
