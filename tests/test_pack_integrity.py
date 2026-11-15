@@ -135,7 +135,14 @@ def test_old_frontmatter_ids_are_gone_from_skills():
         "patent-invention-standalone-01-controller",
         "patent-invention-standalone-12-word",
     ]
-    blob = "\n".join(path.read_text(encoding="utf-8") for path in SKILLS.rglob("*") if path.is_file())
+    # Text files only: running the skill tests writes __pycache__/*.pyc under skills/.
+    blob = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in SKILLS.rglob("*")
+        if path.is_file()
+        and path.suffix.lower() in TEXT_SUFFIXES
+        and "__pycache__" not in path.parts
+    )
     for old in old_ids:
         assert old not in blob
     # The historical names live only in the rename map.

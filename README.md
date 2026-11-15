@@ -2,7 +2,7 @@
 
 作者：Xuzhen Li
 
-第二版发明专利流程的中文工作副本。它把技术想法写成向国家知识产权局（CNIPA）提交的中国发明专利 Word 工作稿，全程用中文。它不代替专利代理师审查。
+中国发明专利撰写技能包。它把技术想法写成向国家知识产权局（CNIPA）提交的中国发明专利 Word 工作稿，全程用中文。它不代替专利代理师审查。
 
 英文专利（美国发明专利、PCT 国际申请）请用 [patent-drafting-skills](https://github.com/Xuzhen-Li/patent-drafting-skills)。
 
