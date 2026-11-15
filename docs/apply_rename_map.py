@@ -807,7 +807,12 @@ def main(argv=None):
         help="overwrite SKILL.md with the cleaned Chinese text",
     )
     args = parser.parse_args(argv)
-    document = write_map()
+    # Only write docs/rename_map.json when asked to (or by default); --self-test and
+    # --check-clean leave the working tree alone.
+    writes_map = args.emit_map or args.init_from or not any(
+        [args.self_test, args.init_from, args.check_clean]
+    )
+    document = write_map() if writes_map else None
     if args.self_test:
         self_test()
     if args.init_from:
@@ -819,9 +824,7 @@ def main(argv=None):
     if args.check_clean:
         assert_pack_clean()
         print("pack wording check ok")
-    if args.emit_map or args.init_from or not any(
-        [args.self_test, args.init_from, args.check_clean]
-    ):
+    if writes_map:
         print(f"wrote {MAP_PATH.relative_to(ROOT)} ({document['count']} replacements)")
     return 0
 

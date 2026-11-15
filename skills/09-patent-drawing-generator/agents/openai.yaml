@@ -1,4 +1,4 @@
 interface:
   display_name: "09-patent-drawing-generator"
-  short_description: "Freeze one master and deterministic engineering sources, then make 3–7 formal patent drawings. 按发明类型建立统一母版和确定性工程源，制作3–7张正式专利附图。"
-  default_prompt: "请使用 $09-patent-drawing-generator 按资深专利代理人和专业制图标准完成分型、母版、确定性工程源及候选附图。 Use $09-patent-drawing-generator to set the drawing route, master, deterministic sources, and candidate drawings."
+  short_description: "按发明类型建立统一母版和确定性工程源，制作3–7张正式专利附图。"
+  default_prompt: "请使用 $09-patent-drawing-generator 按资深专利代理人和专业制图标准完成分型、母版、确定性工程源及候选附图。"
