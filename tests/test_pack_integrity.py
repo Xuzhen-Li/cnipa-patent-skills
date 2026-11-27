@@ -36,29 +36,26 @@ def _copyright_mark():
     return chr(0x7248) + chr(0x6743)
 
 
-def test_twelve_bilingual_skills():
+def test_twelve_chinese_skills():
     found = sorted(path.name for path in SKILLS.iterdir() if path.is_dir())
     assert found == EXPECTED
     for name in EXPECTED:
         skill = (SKILLS / name / "SKILL.md").read_text(encoding="utf-8")
-        chinese = (SKILLS / name / "SKILL.zh-CN.md").read_text(encoding="utf-8")
         assert f'name: "{name}"' in skill
-        assert f'name: "{name}"' in chinese
-        frontmatter = skill.split("---", 2)[1]
-        assert re.search(r"[A-Za-z]", frontmatter)
-        assert re.search(r"[\u4e00-\u9fff]", frontmatter)
+        assert not (SKILLS / name / "SKILL.zh-CN.md").exists()
+        description = re.search(r'^description: "(.*)"$', skill, re.M).group(1)
+        assert re.match(r"[\u4e00-\u9fff]", description), name
         if name == "01-patent-master-control":
             for trigger in (
                 "开始发明专利",
                 "发明专利开始工作",
                 "单独走发明专利流程",
                 "把这个想法写成发明专利",
-                "start invention patent",
             ):
-                assert trigger in frontmatter
+                assert trigger in description
 
 
-def test_guidance_has_english_counterpart():
+def test_guidance_is_chinese_only():
     pairs = [
         SKILLS / "09-patent-drawing-generator/references/分类型专利附图规范.md",
         SKILLS / "10-drawing-consistency-validator/references/附图双重质量门检查表.md",
@@ -66,7 +63,7 @@ def test_guidance_has_english_counterpart():
     ]
     for path in pairs:
         assert path.is_file()
-        assert path.with_name(path.name.replace(".md", ".en.md")).is_file()
+        assert not path.with_name(path.name.replace(".md", ".en.md")).exists()
 
 
 def test_local_links_and_script_paths_exist():
@@ -138,7 +135,14 @@ def test_old_frontmatter_ids_are_gone_from_skills():
         "patent-invention-standalone-01-controller",
         "patent-invention-standalone-12-word",
     ]
-    blob = "\n".join(path.read_text(encoding="utf-8") for path in SKILLS.rglob("*") if path.is_file())
+    # Text files only: running the skill tests writes __pycache__/*.pyc under skills/.
+    blob = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in SKILLS.rglob("*")
+        if path.is_file()
+        and path.suffix.lower() in TEXT_SUFFIXES
+        and "__pycache__" not in path.parts
+    )
     for old in old_ids:
         assert old not in blob
     # The historical names live only in the rename map.
@@ -180,8 +184,7 @@ def test_vendor_license_gate_is_gone_and_patent_grant_wording_stays():
             if needle in text:
                 offenders.append(f"{path.relative_to(ROOT)}: {needle}")
     assert offenders == []
-    assert "必然授权" in (SKILLS / "05-patent-prior-art-search/SKILL.zh-CN.md").read_text(encoding="utf-8")
-    assert "不得承诺可授权" in (SKILLS / "04-patent-topic-selector/SKILL.zh-CN.md").read_text(encoding="utf-8")
-    assert "承诺授权" in (SKILLS / "07-abstract-generator/SKILL.zh-CN.md").read_text(encoding="utf-8")
-    assert "不是法律意见" in (SKILLS / "01-patent-master-control/SKILL.zh-CN.md").read_text(encoding="utf-8")
-    assert "not legal advice" in (SKILLS / "01-patent-master-control/SKILL.md").read_text(encoding="utf-8")
+    assert "必然授权" in (SKILLS / "05-patent-prior-art-search/SKILL.md").read_text(encoding="utf-8")
+    assert "不得承诺可授权" in (SKILLS / "04-patent-topic-selector/SKILL.md").read_text(encoding="utf-8")
+    assert "承诺授权" in (SKILLS / "07-abstract-generator/SKILL.md").read_text(encoding="utf-8")
+    assert "不是法律意见" in (SKILLS / "01-patent-master-control/SKILL.md").read_text(encoding="utf-8")

@@ -1,4 +1,4 @@
 interface:
   display_name: "03-invention-status-check"
-  short_description: "Review material maturity and choose the earliest patent node that still needs work. 复核已有素材成熟度，动态选择最早需要补齐的专利节点。"
-  default_prompt: "请使用 $03-invention-status-check 复核已有素材评估，并决定当前专利项目应从哪个节点继续。 Use $03-invention-status-check to review the materials assessment and decide which node this project should enter."
+  short_description: "复核已有素材成熟度，动态选择最早需要补齐的专利节点。"
+  default_prompt: "请使用 $03-invention-status-check 复核已有素材评估，并决定当前专利项目应从哪个节点继续。"

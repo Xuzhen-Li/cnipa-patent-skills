@@ -1,49 +1,49 @@
 ---
 name: "05-patent-prior-art-search"
-description: "Build a reproducible Chinese/English, classification, and citation search; identify the closest prior art; and write preliminary novelty and inventive-step analyses. Distinguish patentability search from infringement/FTO search. 用于对已确认技术披露制定中英文、分类号和组合检索策略，在可用的中国及国际专利数据库和非专利文献中进行可复核检索，确定最接近现有技术，并分别完成新颖性和创造性初步分析；明确区分可专利性检索与侵权/FTO检索。"
+description: "用于对已确认技术披露制定中英文、分类号和组合检索策略，在可用的中国及国际专利数据库和非专利文献中进行可复核检索，确定最接近现有技术，并分别完成新颖性和创造性初步分析；明确区分可专利性检索与侵权/FTO检索。"
 ---
 
 # 05-patent-prior-art-search
 
-## Purpose
+## 节点目的
 
-Using a senior patent attorney's search and analysis method, produce a prior-art investigation that can be repeated and whose evidence can be traced. It gives skill 06 a basis for the general inventive concept (总的发明构思) and the distinguishing features. The conclusion is a professional pre-filing assessment. It is not an examination decision, a validity opinion, or a freedom-to-operate opinion.
+以资深专利代理人的检索与分析方法，形成可重复执行、证据可追溯的现有技术调查，为 06 确定总的发明构思和差异特征提供基础。检索结论是申请前专业初评，不等同于审查结论、稳定性意见或自由实施意见。
 
-## Trigger and inputs
+## 触发与输入
 
-Run after skill 04 finishes, or when skill 03 recommends this node directly. Required inputs:
+04 完成后触发，或 03 直接推荐本节点时触发。必需输入：
 
-- The upstream handoff and every recommended source file.
-- Confirmed technical facts, the problem–means–effect chain, the candidate inventive concepts, and the search elements.
-- The intended filing date or a relevant priority date. If that date is not set, use the search date as a temporary cutoff and state that limit.
+- 上游交接文件和全部推荐来源文件。
+- 已确认技术事实、技术问题—手段—效果链、候选发明构思及检索要素。
+- 拟申请日或相关优先权日；尚未确定时以检索日为临时截止日并明确局限。
 
-When arriving directly from skill 03, both `next_skill` and `recommended_start_skill` must be this node, and the materials must be enough to rebuild the items above. Otherwise return to skill 03 or skill 04.
+从 03 直达时，`next_skill` 与 `recommended_start_skill` 必须均为本节点，且材料足以重建上述内容；否则返回 03 或 04。
 
-## Node directory
+## 节点目录
 
-In the current project, create `patent-deliverables/05-patent-prior-art-search/` and the seven standard subdirectories. Search pages, exports, full texts, search logs, and analysis stay there. Do not edit the user's original materials.
+在当前项目创建 `patent-deliverables/05-patent-prior-art-search/` 及标准七类子目录。检索页面、导出文件、文献全文、检索日志和分析成果必须收纳其中，不得改写用户原始材料。
 
-## Search boundary
+## 检索边界
 
-- Patentability search: patent and non-patent technical disclosures made available to the public before the relevant date, used for a first look at novelty (新颖性) and inventive step (创造性).
-- FTO / infringement search: in-force claims and legal status in a specific country. The purpose and method are different. This node does not give an FTO or non-infringement conclusion. It only records in-force risks that may need a separate investigation.
-- Not found does not mean absent. Database coverage, language, classification, publication delay, and the search date must all be written into the limitations note.
+- 可专利性检索：关注相关日期以前向公众公开的专利和非专利技术资料，用于新颖性、创造性初评。
+- FTO/侵权检索：关注特定国家有效权利要求及法律状态，目的和方法不同。本节点不提供 FTO 或不侵权结论，只记录可能需要另行调查的在权风险。
+- 未检出不等于不存在，数据库覆盖、语言、分类、公开延迟和检索时间均必须写入局限说明。
 
-## Steps
+## 执行步骤
 
-1. Lock the search fact set and the relevant date. Do not mix unconfirmed attorney proposals into the search subject.
-2. Split each candidate concept into essential core features, relationship features, functional features, effect features, and optional features, and build search concept groups.
-3. Build Chinese terms, English terms, abbreviations, synonyms, broader and narrower concepts, old names, and likely misspellings. Expand with IPC/CPC, applicants, inventors, citations, and similar documents.
-4. Search in rounds: whole concept, then core combinations, then key single features, then classification, then applicant/inventor, then the citation network. Prefer accessible patent databases such as CNIPA, WIPO Patentscope, Espacenet, and Google Patents, and add non-patent literature such as papers, standards, product manuals, and archived web pages.
-5. For every round, record the database, the full query, filters, date, hit count, why items were kept or dropped, and the export file. Do not record keywords alone.
-6. Check each candidate reference for publication date, priority, patent family, relevant text version, and a readable full text. Legal status is only an auxiliary note. It does not decide whether the document is prior art as of the relevant date.
-7. Select one or more closest prior-art documents and build a feature-by-feature comparison matrix. Every "disclosed" judgment must point to a specific passage, claim, or drawing.
-8. The novelty first look must test every technical feature against a single reference. Do not destroy novelty by stitching several documents together.
-9. The inventive-step first look uses the closest prior art, the distinguishing features, the objective technical problem actually solved, the teaching or motivation to combine, and the technical effect. When combining documents, say why a person skilled in the art would or would not make that combination.
-10. If the prior art is close, look only in the user's original disclosure for real differences and fallback positions. A new idea from the attorney must be marked separately and sent to the inventor for verification. Do not automatically write it up as "three new innovation points".
-11. If the databases cannot be reached, output only a manual search plan and set `can_continue=false`. Hand off to skill 06 only after reviewable document evidence exists.
+1. 锁定检索事实集和相关日期，禁止把未确认的代理人设想混入检索对象。
+2. 将候选构思拆为核心必要特征、关系特征、功能特征、效果特征和可选特征，建立检索概念组。
+3. 构造中文、英文、缩写、同义词、上位/下位概念、旧称及可能误拼；结合 IPC/CPC、申请人、发明人、引证和相似文献扩展。
+4. 按“整体概念 → 核心组合 → 关键单特征 → 分类号 → 申请人/发明人 → 引证网络”逐轮检索。优先使用可访问的 CNIPA、WIPO Patentscope、Espacenet、Google Patents 等专利数据库，并补充论文、标准、产品手册、网页存档等非专利文献。
+5. 对每轮记录数据库、完整检索式、过滤条件、日期、命中数、筛选理由和导出文件；不得只记录关键词。
+6. 核验候选对比文件的公开日、优先权、专利族、相关文本版本和可读全文。法律状态仅作辅助记录，不影响其是否构成现有技术的时间判断。
+7. 选定一项或数项最接近现有技术，制作逐特征对比矩阵。每个“已公开”判断必须指向具体文献段落、权利要求或附图。
+8. 新颖性初评必须逐项以单一对比文件检查全部技术特征，不得用多篇文件拼接否定新颖性。
+9. 创造性初评按最接近现有技术、区别特征、实际解决的技术问题、技术启示/结合动机和技术效果进行分析；组合文献时说明为何本领域技术人员会或不会作出结合。
+10. 若现有技术接近，只能从用户原始披露中寻找真实差异和退守点。代理人提出的新设想必须单独标记并交发明人验证，不得自动写成“3个新创新点”。
+11. 无法访问数据库时仅输出人工检索方案，`can_continue=false`；只有取得可复核文献证据后才可交接 06。
 
-## Required outputs
+## 必需输出
 
 - `deliverables/search-strategy.md`
 - `deliverables/queries-and-classifications.json`
@@ -56,28 +56,28 @@ In the current project, create `patent-deliverables/05-patent-prior-art-search/`
 - `deliverables/inventive-step-preliminary.md`
 - `deliverables/search-limits-fto-boundary.md`
 - `deliverables/candidate-differences-from-disclosure.md`
-- The three standard process records and `handoff/next-node-input.json`
+- 三份标准过程记录及 `handoff/next-node-input.json`
 
-## Handoff rules
+## 交接规则
 
-The handoff must state:
+交接文件必须写明：
 
 - `current_skill=05-patent-prior-art-search`
 - `next_skill=06-innovation-point-finder`
-- Existing-materials and dynamic-routing fields, copied unchanged
-- `relevant_date`, `searched_databases`, `search_log_file`
-- `closest_prior_art`, `feature_matrix_file`
-- `novelty_preliminary_status`, `inventive_step_preliminary_status`
-- `patentability_search_limitations`, `potential_fto_flags`
-- `confirmed_difference_candidates`, `unconfirmed_agent_proposals`
-- `source_files`, `deliverables`, `open_questions`
-- `quality_gate_status`, `can_continue`, `must_stop_reason`
+- 已有素材、动态路由字段原样传递
+- `relevant_date`、`searched_databases`、`search_log_file`
+- `closest_prior_art`、`feature_matrix_file`
+- `novelty_preliminary_status`、`inventive_step_preliminary_status`
+- `patentability_search_limitations`、`potential_fto_flags`
+- `confirmed_difference_candidates`、`unconfirmed_agent_proposals`
+- `source_files`、`deliverables`、`open_questions`
+- `quality_gate_status`、`can_continue`、`must_stop_reason`
 
-## Quality gate and stops
+## 质量门与阻断
 
-- Complete the applicable routes among keywords, classification, and citation/party search, and save a full reviewable log.
-- The relevant dates, text versions, and specific evidence locations of the key references have been checked.
-- The single-document novelty comparison and the combination analysis for inventive step stay strictly separate.
-- Do not give `pass` when the search missed a key concept, only an abstract is available, the relevant date is unknown, or the closest prior art cannot be identified.
-- Do not promise "not disclosed", "certainly inventive", "non-infringing", or "certain to be granted".
-- Do not write a post-search idea, an unverified effect, or a difference with no original basis as an inventive fact.
+- 至少完成关键词、分类号和引证/主体中的适用检索路线，并保存完整可复核日志。
+- 关键对比文件的相关日期、文本版本和具体证据位置已核验。
+- 新颖性单篇对比和创造性组合分析严格分开。
+- 检索未覆盖关键概念、只有摘要无全文、相关日期不明或最接近现有技术无法确定时，不得给出 pass。
+- 不得承诺“未公开”“必然具备创造性”“不侵权”或“必然授权”。
+- 不得把检索后临时构想、未验证效果或无原始依据差异写成发明事实。

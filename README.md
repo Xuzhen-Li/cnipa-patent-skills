@@ -1,21 +1,23 @@
-# Invention patent skills
+# 中国发明专利撰写技能（中文）
 
-Author: Xuzhen Li
+作者：Xuzhen Li
 
-Private bilingual working copy of the second-edition invention-patent skill workflow. It drafts a Chinese invention patent (发明专利) from a technical idea through a Word draft. It does not replace review by a patent attorney (专利代理师).
+中国发明专利撰写技能包，可将技术构思整理为向国家知识产权局（CNIPA）提交的中国发明专利 Word 工作稿，全程使用中文。本工具不能替代专利代理师审查。
 
-The agent (Codex, Claude Code, Cursor, …) loads each skill from `SKILL.md`. `SKILL.zh-CN.md` is the same workflow in Chinese.
+撰写英文专利（美国发明专利、PCT 国际申请）请使用 [patent-drafting-skills](https://github.com/Xuzhen-Li/patent-drafting-skills)。
 
-## Install
+智能体（Codex、Claude Code、Cursor 等）加载各技能目录下的 `SKILL.md`，内容全部为中文。
 
-Project mode installs only into `<dir>/.agents/skills` and replaces only these 12 skill names.
+## 安装
+
+项目模式下仅安装至 `<目录>/.agents/skills`，且只覆盖这 12 个同名技能。
 
 ```bash
-bash install.sh --target project "/your/project" --mode copy
-bash install.sh --target project "/your/project" --mode link --dry-run
+bash install.sh --target project "/你的/项目路径" --mode copy
+bash install.sh --target project "/你的/项目路径" --mode link --dry-run
 ```
 
-User skill directories, only when you ask for them:
+仅在明确指定时，才会安装至用户级技能目录：
 
 ```bash
 bash install.sh --target cursor
@@ -24,81 +26,79 @@ bash install.sh --target codex
 bash install.sh --target all
 ```
 
-Windows:
+Windows：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\install.ps1 --target project "C:\your\project"
+powershell -ExecutionPolicy Bypass -File .\install.ps1 --target project "C:\你的\项目路径"
 powershell -ExecutionPolicy Bypass -File .\install.ps1 --target cursor --mode link --dry-run
 ```
 
-`--mode copy` is the default. `--mode link` points each installed skill at this pack. `--dry-run` prints the actions and writes nothing. `-h` prints help.
+`--mode copy` 为默认模式。`--mode link` 把每个已安装技能指向本包。`--dry-run` 仅打印拟执行的操作，不写入文件。`-h` 显示帮助信息。
 
-After installing into a project, open that project in the agent (Codex, Claude Code, Cursor, …). If the current task was created before installation, start a new task so the agent discovers the project skills.
+安装到项目后，请在该项目目录下启动所使用的智能体（Codex、Claude Code、Cursor 等）。如果当前会话创建于安装之前，请新建任务以便智能体重新识别项目级技能。
 
-## Start
+## 启动
 
-Say any of these:
+可使用以下任一表达触发：
 
 - `开始发明专利`
 - `发明专利开始工作`
 - `单独走发明专利流程`
 - `把这个想法写成发明专利`
-- `start invention patent`
-- `turn this idea into an invention patent`
 
-`01-patent-master-control` shows this notice before any substantive work, then waits for a natural confirmation such as `yes` or `确认`. There is no fixed sentence.
+`01-patent-master-control` 在开始实质工作前会展示以下提示，并等待用户使用 `yes` 或 `确认` 等自然语言表达同意，不限定固定话术。
 
-> This workflow is drafting assistance, not legal advice. A registered patent agent (专利代理师) should review the draft before filing. Keep the invention confidential until filing.
+> 本流程只提供发明专利撰写辅助，不是法律意见。提交申请前应由注册专利代理师审查。在申请提交前，应对发明内容保密。
 
-Until the user agrees, do not create the delivery directory, read materials, or draft.
+在用户明确同意之前，不得创建交付目录、读取材料或撰写正文。
 
-## Route
+## 路线
 
-`start confirmation` → `01-patent-master-control` → `02-patent-init` (materials questions and assessment) → `03-invention-status-check` → the recommended node among 04–12 → normal order through `12-patent-word-generator`.
+`启动说明` → `01-patent-master-control` → `02-patent-init`（三项素材询问与评估）→ `03-invention-status-check` → 推荐的 04–12 节点 → 按正常顺序推进至 `12-patent-word-generator`。
 
-After skill 02 starts, it asks, before any other setup question:
+进入 02 后，系统必须优先询问：
 
-1. Is there already a patent framework?
-2. Is there already a patent draft?
-3. Are there already related patent materials?
+1. 是否已有专利框架？
+2. 是否已完成专利初稿？
+3. 是否已有专利相关材料？
 
-If any answer is yes, skill 02 creates `patent-deliverables/02-patent-init/input/<nn>-user-existing-materials/`, starting at `01`. After you put the original files there, reply `我已将已有素材放入指定文件夹`. The originals are not modified.
+若任一项回答为“是”，则在 `patent-deliverables/02-patent-init/input/` 下创建 `<编号>-user-existing-materials/`，编号从 `01` 开始递增。用户将原始文件放入该目录后回复 `我已将已有素材放入指定文件夹`。系统不会修改任何原始素材。
 
-The recommendation uses file contents and missing prerequisites, not file count, and not a node you pick. If several gaps exist, start at the lowest-numbered gap and then continue in order.
+起始节点推荐依据文件内容和前置缺口确定，不按文件数量判断，也不由用户自行指定。若多个环节存在缺口，从编号最小的缺口节点开始，随后按正常顺序继续推进。
 
-### Dynamic branches
+### 动态分支
 
-- No materials, or only scattered ideas: 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12.
-- Technical problem and core solution are clear, but search is missing: 03 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12.
-- Search evidence exists, innovation points are not settled: 03 → 06 → 07 → 08 → 09 → 10 → 11 → 12.
-- Innovation points are clear, usable abstract is missing: 03 → 07 → 08 → 09 → 10 → 11 → 12.
-- Abstract and core features are usable, claims still need work: 03 → 08 → 09 → 10 → 11 → 12.
-- Abstract and claims are usable, but qualified drawings, a single fact source, or a master is missing: 03 → 09 → 10 → 11 → 12.
-- 3–7 candidate drawings exist but have not been checked image by image: 03 → 10 → 11 → 12.
-- Drawings passed the image check, description still needs work: 03 → 11 → 12.
-- Text, 3–7 drawings, the image check, and the three-way consistency record are complete: 03 → 12.
+- 三项均为“否”，或素材仅为零散想法：03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12。
+- 技术问题和核心方案明确，但缺少检索：03 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12。
+- 已有检索证据，但创新点尚未确定：03 → 06 → 07 → 08 → 09 → 10 → 11 → 12。
+- 创新点明确，但缺少可用摘要：03 → 07 → 08 → 09 → 10 → 11 → 12。
+- 摘要和核心特征可用，但权利要求待处理：03 → 08 → 09 → 10 → 11 → 12。
+- 摘要和权利要求可用，但缺少合格附图、统一事实源或母版：03 → 09 → 10 → 11 → 12。
+- 已有 3–7 张候选附图，但未经逐张实图一致性校验：03 → 10 → 11 → 12。
+- 附图已通过实图校验，但说明书待处理：03 → 11 → 12。
+- 正文、3–7 张附图、实图校验和三向一致性记录均已完整，仅待汇总：03 → 12。
 
-Skill 03 chooses the earliest node that still needs work from the file contents. It must not skip an earlier gap because of a file count, a file name, or a claim that a complete draft already exists.
+03 必须依据文件实际内容选择最早需要补齐的节点，不得仅凭文件数量、文件名或用户声称“已有完整初稿”而跳过前置缺口。
 
-## Drawing gates
+## 附图质量门
 
-- The drawing count is whatever the technology needs, and it must be 3–7. It is not fixed at 3, and it does not have to fill 7.
-- Skill 09 reviews the available materials and freezes a Figure 1 (图1) master. Later views are derived from that master.
-- The abstract figure (摘要附图) is chosen from the set that passes the check. It is not a second structure.
-- Skill 10 opens every actual image and checks facts, cross-view consistency, claims, and marks. A structural contradiction goes back to skill 09.
-- After two rounds of the same class of generative structural error, switch to CAD, vector, or controlled reference-image editing, or ask for drawings, dimensions, and structural data.
-- Skills 11 and 12 may use only the drawing copies that passed skill 10 and whose hashes match.
+- 附图总数根据技术表达需要确定，必须控制在 3–7 张，不固定为 3 张，也不要求凑满 7 张。
+- 09 先审查全部可用材料并冻结图1整体结构母版，其余视图必须从同一母版派生。
+- 摘要附图从通过校验的图集中选取，不再单独生成另一套结构。
+- 10 必须逐一打开全部实际图片，核查事实、跨图、权利要求和标号一致性；存在结构矛盾时必须退回 09。
+- 同类生成式结构错误连续出现两轮后，必须切换为 CAD、矢量或受控参考图编辑，或要求补充图纸、尺寸及结构资料。
+- 11 和 12 只能使用经 10 校验通过且哈希一致的附图副本。
 
-Any added or removed part, shape change, connection change, position drift, orientation change, or inside/outside contradiction stops at skill 10 and returns to skill 09. After any image is redrawn, skill 10 checks the full set again.
+任何部件增减、形态变化、连接变更、位置偏移、朝向改变或内外关系矛盾均须在 10 拦截并退回 09。任一图片重绘后，10 须重新检查全套图片。
 
-## Handoff
+## 交接
 
-A node may be followed only after it writes `patent-deliverables/<skill-name>/handoff/next-node-input.json`. A dynamic start from skill 03 also carries the materials directory, assessment status, recommended node, and routing source. If a node sets `can_continue=false`, the controller stops and tells you the gap.
+每个节点输出 `patent-deliverables/<技能名>/handoff/next-node-input.json` 后，方可进入下一节点。从 03 动态起步时，还必须传递素材目录、评估状态、推荐节点和路由来源。若节点写入 `can_continue=false`，总控必须立即停止并说明缺口。
 
-Each node uses:
+每个节点使用以下目录结构：
 
 ```text
-patent-deliverables/<skill-name>/
+patent-deliverables/<技能名>/
   input/
   output/
   process-records/
@@ -108,23 +108,23 @@ patent-deliverables/<skill-name>/
   patent-files/
 ```
 
-## Skills
+## 技能
 
-| Directory | Role |
+| 目录 | 作用 |
 | --- | --- |
-| `01-patent-master-control` | Start gate and scheduling |
-| `02-patent-init` | Materials questions, assessment, start-node recommendation |
-| `03-invention-status-check` | Review and dynamic route |
-| `04-patent-topic-selector` | Technical disclosure and search elements |
-| `05-patent-prior-art-search` | Prior-art search, novelty, inventive step |
-| `06-innovation-point-finder` | General inventive concept and innovation layers |
-| `07-abstract-generator` | Draft abstract, at most 300 characters |
-| `08-claims-writer` | Claims, at most 10 |
-| `09-patent-drawing-generator` | Master and 3–7 candidate drawings |
-| `10-drawing-consistency-validator` | Substantive and formal drawing gates |
-| `11-description-writer` | Description and final abstract |
-| `12-patent-word-generator` | Word draft |
+| `01-patent-master-control` | 启动门槛与调度 |
+| `02-patent-init` | 素材三问、评估、起始节点推荐 |
+| `03-invention-status-check` | 复核并动态路由 |
+| `04-patent-topic-selector` | 技术披露与检索要素 |
+| `05-patent-prior-art-search` | 现有技术检索、新颖性、创造性 |
+| `06-innovation-point-finder` | 总的发明构思与创新层级 |
+| `07-abstract-generator` | 摘要初稿，不超过 300 字 |
+| `08-claims-writer` | 权利要求书，不超过 10 项 |
+| `09-patent-drawing-generator` | 母版与 3–7 张候选附图 |
+| `10-drawing-consistency-validator` | 附图实质门与形式门 |
+| `11-description-writer` | 说明书与摘要定稿 |
+| `12-patent-word-generator` | Word 工作稿 |
 
-The combined working draft is `patent-final.docx`. Split CNIPA filing files keep Chinese names: `权利要求书.docx`, `说明书.docx`, `说明书摘要.docx`, `说明书附图.docx`, and `摘要附图`.
+合并工作稿文件名为 `patent-final.docx`。拆分后的中国申请文件保持中文文件名：`权利要求书.docx`、`说明书.docx`、`说明书摘要.docx`、`说明书附图.docx` 和 `摘要附图`。
 
-Rename table: `docs/rename_map.json`. Pack notes: `docs/PACK_MANIFEST.md`.
+重命名映射表：`docs/rename_map.json`。包说明：`docs/PACK_MANIFEST.md`。

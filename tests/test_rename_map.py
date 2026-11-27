@@ -33,6 +33,8 @@ def test_map_file_matches_script_and_is_longest_first():
     document = json.loads((ROOT / "docs" / "rename_map.json").read_text(encoding="utf-8"))
     assert document["count"] == len(document["replacements"])
     assert document["count"] == len(module.replacement_rows())
+    # --self-test no longer rewrites the file, so compare the whole content.
+    assert document == json.loads(json.dumps(module.map_document(), ensure_ascii=False))
     lengths = [len(row["from"]) for row in document["replacements"]]
     assert lengths == sorted(lengths, reverse=True)
     protected = set(document["protected_filenames"])

@@ -1,49 +1,45 @@
 ---
 name: "01-patent-master-control"
-description: "Start and control the standalone invention-patent workflow. English triggers: \"start invention patent\"; \"start the invention patent workflow\"; \"run the invention patent process alone\"; \"turn this idea into an invention patent\". 中文触发：开始发明专利；发明专利开始工作；单独走发明专利流程；把这个想法写成发明专利。用于单独启动和控制发明专利独立流程线；先说明这是撰写辅助而非法律意见，用户以 yes 或确认同意后再调度 02 至 12。"
+description: "触发语：开始发明专利；发明专利开始工作；单独走发明专利流程；把这个想法写成发明专利。用于单独启动和控制发明专利独立流程线；先说明这是撰写辅助而非法律意见，用户以 yes 或确认同意后再调度 02 至 12。"
 ---
 
 # 01-patent-master-control
 
-## Purpose
+## 节点目的
 
-Entry controller for the standalone invention-patent (发明专利) workflow. This node schedules only that workflow.
+作为发明专利skill独立流程线的总控入口。该节点只调度发明专利流程。
 
-## When it runs
+## 触发时机
 
-Run when the user enters any of these, or a close variant:
+用户输入以下或类似指令时触发：
 
 - `开始发明专利`
 - `发明专利开始工作`
 - `单独走发明专利流程`
 - `把这个想法写成发明专利`
-- `start invention patent`
-- `start the invention patent workflow`
-- `run the invention patent process alone`
-- `turn this idea into an invention patent`
 
-## Start confirmation
+## 启动说明
 
-Before creating directories, reading materials, searching the web, calling tools, analyzing the invention, drafting text, or any other substantive work, show this notice:
+在创建目录、读取材料、联网检索、调用工具或撰写正文之前，先展示下面的说明：
 
-> This workflow is drafting assistance, not legal advice. A registered patent agent (专利代理师) should review the draft before filing. Keep the invention confidential until filing.
+> 本流程只提供发明专利撰写辅助，不是法律意见。提交申请前应由注册专利代理师审查。在申请提交前，应对发明内容保密。
 >
-> Reply yes or 确认 to continue.
+> 回复 yes 或确认后继续。
 
-A natural confirmation is enough, for example `yes` or `确认`. There is no fixed sentence.
+自然的肯定即可，例如 yes 或确认，不要求固定原句。
 
-- If the user does not agree, stop and do no substantive work.
-- After the user agrees, create this node's directories and continue.
+- 用户未同意时停止，不得开始实质工作。
+- 用户同意后，才创建本节点目录并继续。
 
-## Required inputs
+## 必需输入
 
-- The user's command to start the invention-patent workflow.
-- A clear confirmation such as `yes` or `确认` after the user has seen the notice.
-- If a prior handoff exists, read that node's `handoff/next-node-input.json`.
+- 用户启动发明专利流程的指令。
+- 用户在看到启动说明后以 yes 或确认表示同意。
+- 如已有发明专利流程交接文件，则读取上一节点 `handoff/next-node-input.json`。
 
-## Required node directory
+## 必建节点交付目录
 
-Before substantive work, create this directory in the current patent project. The directory name must match this skill name. Do not add a project-number level.
+开始实质工作前，必须在当前专利项目内创建以下目录。目录名必须与本 Skill 名称一致，不得增加项目编号层级：
 
 ```text
 patent-deliverables/01-patent-master-control/
@@ -56,52 +52,52 @@ patent-deliverables/01-patent-master-control/
   patent-files/
 ```
 
-Process records, stage files, and patent files from this node stay inside this directory. Do not also create `stages/`, `process-records/`, or `patent-files/` at the project root.
+本节点产生的过程记录、阶段文件和专利相关文件都必须保存在该节点目录内；不得在项目根目录额外创建 `stages/`、`process-records/` 或 `patent-files/`。
 
-## Steps
+## 执行步骤
 
-1. Decide whether the user clearly asked for the standalone invention-patent workflow.
-2. Show the start notice and wait for yes or 确认. Stop if the user has not agreed.
-3. Check for a previous invention node's `handoff/next-node-input.json`.
-4. If there is no valid handoff, write one and recommend `02-patent-init` next.
-5. If a handoff exists, read `next_skill`, `can_continue`, and `must_stop_reason`.
-6. If `can_continue=false`, stop and state the blocking reason.
-7. If `can_continue=true`, only name the next invention node recorded in the handoff. Do not run that node in the same turn.
+1. 判断用户是否明确要求进入发明专利skill独立流程线。
+2. 展示启动说明并等待 yes 或确认；用户未同意时停止。
+3. 检查是否存在上一发明节点的 `handoff/next-node-input.json`。
+4. 若无有效交接文件，生成交接文件并建议下一步运行 `02-patent-init`。
+5. 若有交接文件，读取 `next_skill`、`can_continue` 和 `must_stop_reason`。
+6. 若 `can_continue=false`，停止并说明阻断原因。
+7. 若 `can_continue=true`，只提示下一步应运行交接文件指定的下一发明节点，不得在同一轮自动执行下一节点。
 
-## Required outputs
+## 必需输出
 
-Formal results for this node go under:
+本节点正式成果至少保存到：
 
 - `patent-deliverables/01-patent-master-control/deliverables/`
 
-Process records:
+本节点过程记录必须保存到：
 
 - `patent-deliverables/01-patent-master-control/process-records/process-log.md`
 - `patent-deliverables/01-patent-master-control/process-records/open-questions.md`
 - `patent-deliverables/01-patent-master-control/process-records/quality-gate-record.md`
 
-Handoff:
+本节点交接文件必须保存到：
 
 - `patent-deliverables/01-patent-master-control/handoff/next-node-input.json`
 
-Required files:
+必交付文件：
 
 - `master-control-status.json`
 - `current-stage.md`
 - `next-node-suggestion.json`
 - `next-node-input.json`
 
-## Standalone run and user confirmation
+## 独立运行与用户确认规则
 
-- This node only creates its directories, process records, deliverables, and handoff for `01-patent-master-control`.
-- The opening yes or 确认 and the later reply that enters the next step are two different confirmations. Neither replaces the other.
-- When this node finishes, stop. Show the main output paths and `next-node-suggestion.json`.
-- Run `02-patent-init` only in a later turn, after the user clearly says to continue or to enter the next step.
-- Do not run `02-patent-init` or any later node in the same turn as this node.
+- 本节点只能完成 `01-patent-master-control` 的目录创建、过程记录、交付结果和交接文件。
+- 开场的 yes 或确认，与本节点完成后的“继续下一步”，是两次不同的用户确认，不得相互替代。
+- 本节点完成后必须停止，向用户展示本节点主要输出文件路径和下一节点建议。
+- 用户明确回复继续、确认进入下一步或类似指令后，才允许在新一轮运行 `02-patent-init`。
+- 不得在本节点同一轮中直接执行 `02-patent-init` 或后续任何节点。
 
-## Handoff rules
+## 交接规则
 
-`next-node-input.json` must include:
+`next-node-input.json` 必须写明：
 
 - `current_skill`: `01-patent-master-control`
 - `next_skill`: `02-patent-init`
@@ -113,26 +109,26 @@ Required files:
 - `can_continue`
 - `must_stop_reason`
 
-## Quality gate
+## 质量门
 
-- Confirm that only the invention-patent route is running.
-- Show the start notice and obtain a clear yes or 确认 before substantive work.
-- Do not branch into a non-invention patent route.
-- Name the next invention node explicitly.
-- Each node creates `patent-deliverables/<skill-name>/` with no extra project-number level.
-- The next node may read only this node's `handoff/next-node-input.json`.
+- 必须确认当前只运行发明专利路线。
+- 必须先展示启动说明，并取得用户以 yes 或确认作出的同意。
+- 不得分流到非发明专利路线。
+- 必须明确下一发明节点。
+- 每个节点必须创建 `patent-deliverables/<Skill名称>/`，不得增加项目编号层级。
+- 下一节点只能读取本节点 `handoff/next-node-input.json`。
 
-## Stop conditions
+## 阻断条件
 
-- The user command is not an invention-patent route.
-- The user has not agreed with yes or 确认.
-- No valid handoff exists and initialization cannot start.
-- The previous node set `can_continue=false`.
+- 用户指令不是发明专利路线。
+- 用户尚未以 yes 或确认表示同意。
+- 找不到有效交接文件且无法进入初始化。
+- 上一节点写入 `can_continue=false`。
 
-## Do not
+## 禁止事项
 
-- Do not skip `02-patent-init`.
-- Before the user agrees with yes or 确认, do not create the project delivery directory, read user materials, or do any substantive work.
-- Do not treat the opening yes or 确认 as the instruction to enter the next node.
-- Do not enter a non-invention patent route.
-- Do not let the next node depend on spoken chat context.
+- 不得跳过 `02-patent-init`。
+- 用户以 yes 或确认同意之前，不得创建项目交付目录、读取用户材料或执行任何实质工作。
+- 不得把开场的 yes 或确认当成进入下一节点的指令。
+- 不得进入非发明专利路线。
+- 不得让下一节点依赖口头上下文。

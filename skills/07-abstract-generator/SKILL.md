@@ -1,75 +1,75 @@
 ---
 name: "07-abstract-generator"
-description: "Draft a Chinese invention-patent abstract (说明书摘要) of at most 300 characters from the confirmed inventive concept. Skill 11-description-writer finalizes it. 用于依据已确认的总发明构思、核心技术方案和技术效果生成中国发明专利说明书摘要初稿，正文不超过 300 字；摘要初稿供后续权利要求和说明书使用，并由 11-description-writer 在全文及附图确定后完成最终定稿。"
+description: "用于依据已确认的总发明构思、核心技术方案和技术效果生成中国发明专利说明书摘要初稿，正文不超过 300 字；摘要初稿供后续权利要求和说明书使用，并由 11-description-writer 在全文及附图确定后完成最终定稿。"
 ---
 
 # 07-abstract-generator
 
-## Purpose
+## 节点目的
 
-Using a senior patent attorney's method, write a structurally accurate and objectively worded draft abstract (说明书摘要). The abstract does not define the scope of protection. This node must not let the abstract narrow claims (权利要求书) that are not written yet. Skill 11 finalizes the abstract against the claims, the description (说明书), and the abstract figure (摘要附图) that passed the drawing check.
+以资深专利代理人的摘要撰写方法形成结构准确、用语客观的摘要初稿。摘要不用于确定保护范围；本节点不得让摘要反向限制尚未完成的权利要求。最终摘要由 11 结合权利要求、说明书和通过校验的摘要附图定稿。
 
-## Trigger and inputs
+## 触发与输入
 
-Run after skill 06 finishes, or when skill 03 recommends this node directly because the existing materials meet the conditions. Required inputs:
+06 完成后触发，或 03 在已有材料满足条件时直接推荐。必需输入：
 
-- The upstream handoff and every recommended source file.
-- Title candidates, the general inventive concept, the technical problem, the core technical solution, the main technical effects, and the use.
-- The essential/optional feature table, the evidence status of the effects, and the inventor's confirmation record.
+- 上游交接和全部推荐来源文件。
+- 发明名称候选、总的发明构思、技术问题、核心技术方案、主要技术效果和用途。
+- 必要与可选技术特征表、效果证据状态和发明人确认记录。
 
-When arriving directly from skill 03, check that each of those elements has a source. If not, return to the earlier node that should supply it.
+从 03 直达时必须核验上述要素均已有来源；不足时返回相应更早节点。
 
-## Node directory
+## 节点目录
 
-In the current project, create `patent-deliverables/07-abstract-generator/` and the seven standard subdirectories. Every result stays there. User originals are read-only.
+在当前项目创建 `patent-deliverables/07-abstract-generator/` 及标准七类子目录。所有成果收纳其中，用户原始材料只读使用。
 
-## Abstract rules
+## 摘要撰写规则
 
-- The abstract body is at most 300 characters. Do not aim for the ceiling. Aim to state what is necessary and accurate.
-- Usually organize it as title / technical field, the technical problem to be solved, the core technical solution, the main technical effect, and the main use.
-- The core solution must show the main technical features and how they relate. Do not write only functions, goals, or effects.
-- State only effects that have evidence. Do not write an unverified advantage as a settled fact.
-- Do not use promotional language, evaluative language, language that promises a patent will be granted (承诺授权), language that widens the scope, or marketing language.
-- Do not write the search history, an evaluation of the references, claim numbers, or embodiment details that are not needed.
-- The title of the invention (发明名称) should state the subject to be protected accurately. Avoid trademarks, model numbers, slogans, and limitations that are not needed.
-- This node only records what the abstract figure needs to express. The abstract figure is chosen later from the drawings that pass skill 10.
+- 摘要正文不超过 300 字，不以接近上限为目标；以准确概括必要内容为准。
+- 通常按发明名称/技术领域、要解决的技术问题、核心技术方案、主要技术效果和主要用途组织。
+- 核心方案应体现主要技术特征及其关系，不能只写功能、目标或效果。
+- 仅写有证据支撑的效果；尚待验证的优势不得写成确定事实。
+- 不使用宣传、评价、承诺授权、扩大保护范围或商业营销性表述。
+- 不写检索过程、对比文件评价、权利要求编号或无必要的实施例细节。
+- 发明名称应准确反映保护主题，避免商标、型号、宣传词和不必要限定。
+- 本节点只记录摘要附图候选表达需求；摘要附图最终从 10 通过的附图中选择。
 
-## Steps
+## 执行步骤
 
-1. Lock the confirmed general inventive concept, the essential core features, and the technical effects that have enough evidence.
-2. Draft title candidates and check that they match the subject to be protected, the technical solution, and the later claim subject.
-3. Build an abstract-element table. Tie each sentence to a fact source and an innovation layer.
-4. Write the abstract body. Cut repeated background, optional features, and promotional effects.
-5. Run `python3 scripts/validate_abstract.py <abstract-draft.md>` and confirm the abstract body is at most 300 non-whitespace characters. If it is over the limit, shorten the substance. Do not only delete necessary technical relationships.
-6. Mark `abstract_status=preliminary`. List what skill 11 must fill back or re-check against the claims, the description, and the drawings.
-7. After the user confirms the draft abstract, hand off to skill 08 and stop. Do not run skill 08 in the same turn.
+1. 锁定已确认总发明构思、核心必要特征和证据充分的技术效果。
+2. 形成发明名称候选并检查与拟保护客体、技术方案及后续权利要求主题一致。
+3. 建立摘要要素表，每句话关联事实来源和创新层级。
+4. 撰写摘要正文，压缩重复背景、可选特征和宣传性效果。
+5. 运行 `python3 scripts/validate_abstract.py <abstract-draft.md>`，确认摘要正文不超过 300 个非空白字符；超出时必须实质精简，不得只删除必要技术关系。
+6. 标记 `abstract_status=preliminary`，列明需在 11 根据权利要求、说明书和附图回填或复核的内容。
+7. 用户确认摘要初稿后交接 08 并停止，不得同轮执行 08。
 
-## Required outputs
+## 必需输出
 
-- `deliverables/abstract-draft.md`: the draft abstract, still the input skill 08 expects
+- `deliverables/abstract-draft.md`：摘要初稿，保持与现有 08 输入兼容
 - `deliverables/title-candidates.md`
 - `deliverables/abstract-element-sources.json`
 - `deliverables/abstract-character-check.json`
 - `deliverables/abstract-finalization-checklist.md`
-- The three standard process records and `handoff/next-node-input.json`
+- 三份标准过程记录及 `handoff/next-node-input.json`
 
-## Handoff rules
+## 交接规则
 
-The handoff must state:
+交接文件必须写明：
 
 - `current_skill=07-abstract-generator`
 - `next_skill=08-claims-writer`
-- Existing-materials and dynamic-routing fields, copied unchanged
-- `abstract_file`, `abstract_status=preliminary`, `abstract_character_count`
-- `title_candidates_file`, `abstract_element_source_file`
-- `abstract_drawing_requirements`, `finalization_required_at_skill=11-description-writer`
-- `unverified_effects_excluded`, `source_files`, `deliverables`, `open_questions`
-- `quality_gate_status`, `can_continue`, `must_stop_reason`
+- 已有素材、动态路由字段原样传递
+- `abstract_file`、`abstract_status=preliminary`、`abstract_character_count`
+- `title_candidates_file`、`abstract_element_source_file`
+- `abstract_drawing_requirements`、`finalization_required_at_skill=11-description-writer`
+- `unverified_effects_excluded`、`source_files`、`deliverables`、`open_questions`
+- `quality_gate_status`、`can_continue`、`must_stop_reason`
 
-## Quality gate and stops
+## 质量门与阻断
 
-- The abstract body is at most 300 characters. The technical problem, core solution, effect, and use are objective and consistent with each other.
-- Every substantive statement has a source. The abstract contains no unconfirmed parameter, structure, or technical effect.
-- The title, the general inventive concept, and the subject to be protected agree.
-- Do not pass the node if the character check fails, the core solution is unclear, or a key effect has no evidence.
-- Do not mark the draft abstract as the final abstract. Do not generate an abstract figure on its own. Do not expand the text to hit a fixed length.
+- 摘要正文不超过 300 字，技术问题、核心方案、效果和用途表达客观且相互一致。
+- 每项实质内容均有来源，不包含未确认参数、结构或技术效果。
+- 发明名称、总的发明构思和拟保护客体一致。
+- 摘要字符校验失败、核心方案不清或关键效果无证据时不得放行。
+- 不得把摘要初稿标为最终摘要，不得独立生成摘要附图，不得以固定字数为目标扩写。

@@ -1,4 +1,4 @@
 interface:
   display_name: "05-patent-prior-art-search"
-  short_description: "Run a traceable Chinese/English, classification, and citation search, then assess closest prior art, novelty, and inventive step. 执行中英文、分类号和引证检索，完成最接近现有技术及新颖性、创造性初评。"
-  default_prompt: "请使用 $05-patent-prior-art-search 以资深专利代理人方法完成可复核检索、特征对比和新颖性、创造性初步分析。 Use $05-patent-prior-art-search to complete a traceable search, feature comparison, and preliminary novelty and inventive-step analysis."
+  short_description: "执行中英文、分类号和引证检索，完成最接近现有技术及新颖性、创造性初评。"
+  default_prompt: "请使用 $05-patent-prior-art-search 以资深专利代理人方法完成可复核检索、特征对比和新颖性、创造性初步分析。"
